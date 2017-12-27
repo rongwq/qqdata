@@ -1,7 +1,5 @@
 package com.rong.api.config;
 
-import java.io.File;
-
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -9,7 +7,6 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
-import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activemq.ActiveMqPlugin;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByActionKeys;
@@ -66,14 +63,6 @@ public class MyConfig extends JFinalConfig {
 	 * 初始刷常量
 	 */
 	public void initConst() {
-		MyConst.upload = getProperty("upload");
-		MyConst.imgUrlHead = getProperty("imgUrlHead");
-		MyConst.ftp_host = getProperty("ftp_host");
-		MyConst.ftp_port = getPropertyToInt("ftp_port");
-		MyConst.ftp_username = getProperty("ftp_username");
-		MyConst.ftp_pwd  = getProperty("ftp_pwd");
-		MyConst.ftp_uploads = getProperty("ftp_uploads");
-		MyConst.ftp_files = getProperty("ftp_files");
 		
 	}
 
@@ -117,14 +106,6 @@ public class MyConfig extends JFinalConfig {
 			arp.setShowSql(true);
 		}
 		_MappingKit.mapping(arp);
-		//增加sql文件管理支持
-		try {
-			File file = new File(getClass().getResource("/SQL").toURI());
-			arp.setBaseSqlTemplatePath(file.exists() ? file.getPath() : PathKit.getRootClassPath() + "/SQL");
-			arp.addSqlTemplate("All.sql");
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 		me.add(arp);
 
 		//2.连接到log库

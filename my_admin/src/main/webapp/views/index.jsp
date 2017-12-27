@@ -79,14 +79,49 @@
 				<shiro:hasPermission name="member">	
 				<li class="tpl-left-nav-item"><a href="javascript:void(0);"
 						class="nav-link tpl-left-nav-link-list"> <i
-							class="am-icon-user-md"></i> <span>用户管理</span> <i
+							class="am-icon-user-md"></i> <span>QQ管理</span> <i
 							class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right tpl-left-nav-more-ico-rotate"></i>
 					</a>
 						<ul class="tpl-left-nav-sub-menu" style="display: none;">
 							<li>
 							<shiro:hasPermission name="member-user">
-							<a href="javascript:loadRight('<%=basePath %>/user/getUserList','用户列表')"> <i
-									class="am-icon-angle-right"></i> <span>用户列表</span>
+							<a href="javascript:loadRight('<%=basePath %>/qq/list','QQ列表')"> <i
+									class="am-icon-angle-right"></i> <span>QQ列表</span>
+							</a>
+							</shiro:hasPermission>
+							</li>
+							<li>
+							<shiro:hasPermission name="member-user">
+							<a href="javascript:loadRight('<%=basePath %>/views/qq/add.jsp','新增QQ')"> <i
+									class="am-icon-angle-right"></i> <span>新增QQ</span>
+							</a>
+							</shiro:hasPermission>
+							</li>
+							<li>
+							<shiro:hasPermission name="member-user">
+							<a href="javascript:loadRight('<%=basePath %>/user/getUserList','QQ列表')"> <i
+									class="am-icon-angle-right"></i> <span>密码修改</span>
+							</a>
+							</shiro:hasPermission>
+							</li>
+							<li>
+							<shiro:hasPermission name="member-user">
+							<a href="javascript:loadRight('<%=basePath %>/user/getUserList','QQ列表')"> <i
+									class="am-icon-angle-right"></i> <span>标签修改</span>
+							</a>
+							</shiro:hasPermission>
+							</li>
+							<li>
+							<shiro:hasPermission name="member-user">
+							<a href="javascript:loadRight('<%=basePath %>/user/getUserList','QQ列表')"> <i
+									class="am-icon-angle-right"></i> <span>出库</span>
+							</a>
+							</shiro:hasPermission>
+							</li>
+							<li>
+							<shiro:hasPermission name="member-user">
+							<a href="javascript:loadRight('<%=basePath %>/user/getUserList','QQ列表')"> <i
+									class="am-icon-angle-right"></i> <span>编组修改</span>
 							</a>
 							</shiro:hasPermission>
 							</li>

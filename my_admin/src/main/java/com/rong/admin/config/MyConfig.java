@@ -8,19 +8,19 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.ext.plugin.shiro.ShiroPlugin3;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByActionKeys;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.plugin.redis.RedisPlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
 import com.rong.admin.controller.AdminController;
 import com.rong.admin.controller.IndexController;
 import com.rong.admin.controller.LogController;
+import com.rong.admin.controller.QqDataController;
 import com.rong.admin.controller.ResourceController;
 import com.rong.admin.controller.RoleController;
 import com.rong.admin.controller.SystemConfigController;
-import com.rong.admin.controller.UserController;
 import com.rong.common.bean.MyConst;
 import com.rong.persist.model._MappingKit;
 
@@ -30,6 +30,8 @@ import com.rong.persist.model._MappingKit;
  * @date 2017年12月21日
  */
 public class MyConfig extends JFinalConfig {
+	private final Log logger = Log.getLog(this.getClass());
+	
 	/**
 	 * 供Shiro插件使用。
 	 */
@@ -77,14 +79,6 @@ public class MyConfig extends JFinalConfig {
 	 * 初始刷常量
 	 */
 	public void initConst() {
-		MyConst.upload = getProperty("upload");
-		MyConst.imgUrlHead = getProperty("imgUrlHead");
-		MyConst.ftp_host = getProperty("ftp_host");
-		MyConst.ftp_port = getPropertyToInt("ftp_port");
-		MyConst.ftp_username = getProperty("ftp_username");
-		MyConst.ftp_pwd  = getProperty("ftp_pwd");
-		MyConst.ftp_uploads = getProperty("ftp_uploads");
-		MyConst.ftp_files = getProperty("ftp_files");
 	}
 	
 	@Override
@@ -96,7 +90,7 @@ public class MyConfig extends JFinalConfig {
 		me.add("/resource", ResourceController.class);
 		me.add("/sysConfig", SystemConfigController.class);
 		me.add("/log", LogController.class);
-		me.add("/user",UserController.class);
+		me.add("/qq",QqDataController.class);
 	}
 
 	@Override
@@ -111,10 +105,6 @@ public class MyConfig extends JFinalConfig {
 		final String password = getProperty("password").trim();
 		final String instance_read_source1_jdbcUrl = getProperty("jdbcUrl");
 		dataSourceConfig(me, instance_read_source1_jdbcUrl, username, password);
-
-		RedisPlugin redisPlugin = new RedisPlugin("redis", getProperty("redis.host"), getPropertyToInt("redis.port"),
-				getProperty("redis.password"));
-		me.add(redisPlugin);
 		// 添加shiro
 		ShiroPlugin3 shiroPlugin = new ShiroPlugin3(this.routes);
 		me.add(shiroPlugin);
@@ -164,7 +154,7 @@ public class MyConfig extends JFinalConfig {
 
 	@Override
 	public void afterJFinalStart() {
-		System.out.println("admin 启动成功");
+		logger.info("admin 启动成功");
 		super.afterJFinalStart();
 	}
 
