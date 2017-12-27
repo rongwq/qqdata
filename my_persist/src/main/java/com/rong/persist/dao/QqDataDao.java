@@ -34,4 +34,9 @@ public class QqDataDao extends BaseDao<QqData> {
 		sqlExceptSelect = sqlExceptSelect + where + orderBy;
 		return dao.paginate(pageNumber, pageSize, select, sqlExceptSelect);
 	}
+	
+	public QqData findByQq(String qq){
+		String sql = "select " + FILEDS + " from " + QqData.TABLE + " where qq = ?";
+		return dao.findFirst(sql, qq);
+	}
 }

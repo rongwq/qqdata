@@ -21,9 +21,28 @@ function checkAll(){
 	}
 }
 
-function inStorage(){
-	
+function updatePwd(){
+	var allCheckQq = "";
+	$.each($('input[name="ckb_id"]'),function(){
+		var checkQq = "";
+        if($(this).is(':checked')){
+        	var qqTr = $(this).parent().parent().parent();
+        	var qq = qqTr.find("td:eq(2)").text();
+        	var pwd = qqTr.find("td:eq(3)").text();
+        	checkQq = (qq +"----"+pwd+"\n");
+        	allCheckQq += checkQq;
+        }
+    });
+	loadRight(getRootPath()+'/views/qq/editPwd.jsp?val='+encodeURI(allCheckQq),'密码修改');
 }
+
+/**
+ * 查看
+ */
+function history(qq){
+	loadRight(getRootPath()+"/qq/history?qq="+qq, "QQ历史信息");
+}
+
 
 /**
  * 删除

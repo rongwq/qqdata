@@ -1,5 +1,9 @@
 package com.rong.admin.config;
 
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.SqlTimestampConverter;
+
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -154,6 +158,8 @@ public class MyConfig extends JFinalConfig {
 
 	@Override
 	public void afterJFinalStart() {
+		ConvertUtils.register(new DateConverter(null), java.util.Date.class); 
+		ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
 		logger.info("admin 启动成功");
 		super.afterJFinalStart();
 	}

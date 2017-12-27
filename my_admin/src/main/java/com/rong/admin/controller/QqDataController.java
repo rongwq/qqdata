@@ -10,6 +10,8 @@ import com.rong.common.bean.MyErrorCodeConfig;
 import com.rong.persist.model.QqData;
 import com.rong.persist.model.QqDataBase;
 import com.rong.persist.model.QqDataBaseHistory;
+import com.rong.user.service.QqDataBaseHistoryService;
+import com.rong.user.service.QqDataBaseHistoryServiceImpl;
 import com.rong.user.service.QqDataService;
 import com.rong.user.service.QqDataServiceImpl;
 import com.rong.user.service.QqTeamService;
@@ -25,6 +27,7 @@ public class QqDataController extends BaseController {
 	private final Log logger = Log.getLog(this.getClass());
 	private QqDataService qqDataService = new QqDataServiceImpl();
 	private QqTeamService qqTeamService = new QqTeamServiceImpl();
+	private QqDataBaseHistoryService qqDataBaseHistoryService = new QqDataBaseHistoryServiceImpl();
 
 	/**
 	 * QQ列表
@@ -39,6 +42,18 @@ public class QqDataController extends BaseController {
 		setAttr("page", list);
 		setAttr("nowDate", new Date());
 		render("/views/qq/list.jsp");
+	}
+	
+	/**
+	 * QQ修改历史记录
+	 */
+	public void history() {
+		int pageNumber = getParaToInt("page", 1);
+		String qq = getPara("qq");
+		Page<QqDataBaseHistory> list = qqDataBaseHistoryService.list(pageNumber, pageSize, qq);
+		keepPara();
+		setAttr("page", list);
+		render("/views/qq/history.jsp");
 	}
 
 	/**
@@ -75,6 +90,30 @@ public class QqDataController extends BaseController {
 	}
 	
 	/**
+	 * 修改QQ密码
+	 */
+	public void updatePwd() {
+		String qqData = getPara("qqData");
+		// 校验qqData格式是否正确
+		boolean validSuccess = validQqData(qqData);
+		if (!validSuccess) {// 校验失败
+			BaseRenderJson.returnBaseTemplateObj(this, MyErrorCodeConfig.ERROR_BAD_REQUEST, "格式错误");
+			return;
+		}
+		String qqDataStrs[] = qqData.split("\n");
+		for (int i = 0; i < qqDataStrs.length; i++) {
+			String vals[] = qqDataStrs[i].split("----");
+			String qq = vals[0];
+			String qqPwd = vals[1];
+			QqData qqDataModel = qqDataService.findByQq(qq);
+			qqDataModel.setQqPwd(qqPwd);
+			qqDataService.updatePwd(qqDataModel, vals);
+		}
+		BaseRenderJson.returnUpdateObj(this, true);
+		logger.info("[操作日志]更新密码成功："+qqData);
+	}
+	
+	/**
 	 * 保存qqData
 	 * @param qq
 	 * @param qqPwd
@@ -107,10 +146,10 @@ public class QqDataController extends BaseController {
 	 * @return
 	 */
 	private boolean saveQqDataBase(int qqType,String vals []){
+		QqDataBase qqDataBase = null;
 		String qq = vals[0];
 		String qqPwd = vals[1];
 		String question1,question1_answer,question2,question2_answer,question3,question3_answer,mobile,token;
-		QqDataBase qqDataBase = null;
 		switch (qqType) {
 		case 1:// 白号
 			qqDataBase = new QqDataBase(qq, qqPwd);
@@ -234,6 +273,17 @@ public class QqDataController extends BaseController {
 		}
 		logger.info("validQqData：" + qqData + "校验结果：" + valid);
 		return valid;
+	}
+	
+	private boolean validQqData(String qqData) {
+		String qqDataStrs[] = qqData.split("\n");
+		for (int i = 0; i < qqDataStrs.length; i++) {
+			String vals[] = qqDataStrs[i].split("----");
+			if (!(vals.length ==2 || vals.length==8 || vals.length==9 || vals.length==10)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**

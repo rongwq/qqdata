@@ -5,6 +5,7 @@ import java.util.Date;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.rong.persist.dao.QqTeamDao;
+import com.rong.persist.enums.QqDataTypeEnum;
 import com.rong.persist.model.base.BaseQqData;
 
 /**
@@ -61,5 +62,21 @@ public class QqData extends BaseQqData<QqData> {
 		boolean result = super.delete();
 		updateTeamStatis();
 		return result;
+	}
+	
+	public static QqDataTypeEnum getQqTypeByValLength(int length){
+		switch (length) {
+		case 2:
+			return QqDataTypeEnum.WHITE;
+		case 8:
+			return QqDataTypeEnum.THREE_QUESTION;
+		case 9:
+			return QqDataTypeEnum.MOBILE;
+		case 10:
+			return QqDataTypeEnum.TOKEN;
+		default:
+			break;
+		}
+		return null;
 	}
 }

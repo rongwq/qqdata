@@ -12,6 +12,7 @@ import com.rong.persist.model.QqData;
  */
 public interface QqDataService extends BaseService<QqData>{
 	Page<QqData> list(int pageNumber,int pageSize,Kv param);
-
+	QqData findByQq(String qq);
+	boolean updatePwd(QqData qqData,String vals []);
 }
 

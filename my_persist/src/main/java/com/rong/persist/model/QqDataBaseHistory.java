@@ -12,7 +12,7 @@ public class QqDataBaseHistory extends BaseQqDataBaseHistory<QqDataBaseHistory> 
 	public static final QqDataBaseHistory dao = new QqDataBaseHistory().dao();
 	public static final String TABLE = "qq_data_base_history";
 	
-public QqDataBaseHistory(){}
+	public QqDataBaseHistory(){}
 	
 	// 白号格式
 	public QqDataBaseHistory(String qq,String qqPwd){

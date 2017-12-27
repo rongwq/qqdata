@@ -10,7 +10,7 @@
 <META HTTP-EQUIV="expires" CONTENT="0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>管理后台</title>
-<meta name="description" content="xk-admin">
+<meta name="description" content="admin">
 <meta name="keywords" content="index">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="renderer" content="webkit">
@@ -99,7 +99,7 @@
 							</li>
 							<li>
 							<shiro:hasPermission name="member-user">
-							<a href="javascript:loadRight('<%=basePath %>/user/getUserList','QQ列表')"> <i
+							<a href="javascript:loadRight('<%=basePath %>/views/qq/editPwd.jsp','密码修改')"> <i
 									class="am-icon-angle-right"></i> <span>密码修改</span>
 							</a>
 							</shiro:hasPermission>
