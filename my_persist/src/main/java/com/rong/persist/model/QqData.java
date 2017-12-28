@@ -38,10 +38,12 @@ public class QqData extends BaseQqData<QqData> {
 		Long aliveQqCountInTeam = record2.getLong("qqCount");
 		QqTeamDao teamDao = new QqTeamDao();
 		QqTeam qqTeam =teamDao.findById(teamId);
-		qqTeam.setQqCount(qqCountInTeam.intValue());
-		qqTeam.setQqCountLived(aliveQqCountInTeam.intValue());
-		qqTeam.setUpdateTime(new Date());
-		qqTeam.update();
+		if(qqTeam!=null){
+			qqTeam.setQqCount(qqCountInTeam.intValue());
+			qqTeam.setQqCountLived(aliveQqCountInTeam.intValue());
+			qqTeam.setUpdateTime(new Date());
+			qqTeam.update();
+		}
 	}
 	
 	/**

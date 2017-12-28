@@ -1,4 +1,4 @@
-﻿/*!
+﻿﻿/*!
  * jQuery Form Plugin
  * version: 3.50.0-2014.02.05
  * Requires jQuery v1.5 or later
@@ -166,9 +166,10 @@ $.fn.ajaxSubmit = function(options) {
     }
 
     var q = $.param(a, traditional);
-    if (qx) {
+    //屏蔽ajaxSubmit提交时参数数组序列化操作
+    /*if (qx) {
         q = ( q ? (q + '&' + qx) : qx );
-    }
+    }*/
     if (options.type.toUpperCase() == 'GET') {
         options.url += (options.url.indexOf('?') >= 0 ? '&' : '?') + q;
         options.data = null;  // data is null for 'get'

@@ -106,21 +106,16 @@
 							</li>
 							<li>
 							<shiro:hasPermission name="member-user">
-							<a href="javascript:loadRight('<%=basePath %>/user/getUserList','QQ列表')"> <i
+							<a href="javascript:loadRight('<%=basePath %>/views/qq/editTag.jsp','标签修改')"> <i
 									class="am-icon-angle-right"></i> <span>标签修改</span>
 							</a>
 							</shiro:hasPermission>
 							</li>
 							<li>
-							<shiro:hasPermission name="member-user">
-							<a href="javascript:loadRight('<%=basePath %>/user/getUserList','QQ列表')"> <i
-									class="am-icon-angle-right"></i> <span>出库</span>
-							</a>
-							</shiro:hasPermission>
 							</li>
 							<li>
 							<shiro:hasPermission name="member-user">
-							<a href="javascript:loadRight('<%=basePath %>/user/getUserList','QQ列表')"> <i
+							<a href="javascript:loadRight('<%=basePath %>/qqTeam/list','编组修改')"> <i
 									class="am-icon-angle-right"></i> <span>编组修改</span>
 							</a>
 							</shiro:hasPermission>
@@ -304,7 +299,7 @@
 
 					<p>
 						由 <a href="http://www.gwemall.cn/" title="广州涌智" target="_blank"
-							class="">xxxx</a> 提供技术支持
+							class="">rongwq</a> 提供技术支持
 					</p>
 					<p>CopyRight©2017 XK Inc.</p>
 				</div>

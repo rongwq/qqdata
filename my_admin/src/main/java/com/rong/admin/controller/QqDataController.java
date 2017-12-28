@@ -1,12 +1,19 @@
 package com.rong.admin.controller;
 
+import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 import com.jfinal.kit.Kv;
+import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.rong.common.bean.BaseRenderJson;
 import com.rong.common.bean.MyErrorCodeConfig;
+import com.rong.common.util.DateTimeUtil;
+import com.rong.common.util.TxtExportUtil;
+import com.rong.common.util.ZipUtil;
+import com.rong.persist.enums.QqDataTypeEnum;
 import com.rong.persist.model.QqData;
 import com.rong.persist.model.QqDataBase;
 import com.rong.persist.model.QqDataBaseHistory;
@@ -33,15 +40,78 @@ public class QqDataController extends BaseController {
 	 * QQ列表
 	 */
 	public void list() {
-		int pageNumber = getParaToInt("page", 1);
-		String qq = getPara("qq");
-		Integer qqType = getParaToInt("qqType");
-		Kv param = Kv.by("qq", qq).set("qqType", qqType);
-		Page<QqData> list = qqDataService.list(pageNumber, pageSize, param);
+		Page<QqData> list = pageList(pageSize);
 		keepPara();
 		setAttr("page", list);
 		setAttr("nowDate", new Date());
 		render("/views/qq/list.jsp");
+	}
+
+	private Page<QqData> pageList(int pagaSize) {
+		int pageNumber = getParaToInt("page", 1);
+		String qq = getPara("qq");
+		Integer qqType = getParaToInt("qqType");
+		Integer state = getParaToInt("state");
+		Integer storageState = getParaToInt("storageState");
+		String teamName = getPara("teamName");
+		Integer isHaveTag = getParaToInt("isHaveTag");
+		String tags = getPara("tags");
+		Integer qAgeMin = getParaToInt("qAgeMin");
+		Integer qAgeMax = getParaToInt("qAgeMax");
+		Integer qqLength = getParaToInt("qqLength");
+		Kv param = Kv.by("qq", qq).set("qqType", qqType)
+				.set("storageState", storageState)
+				.set("state", state)
+				.set("teamName", teamName)
+				.set("isHaveTag", isHaveTag)
+				.set("tags", tags)
+				.set("qAgeMin", qAgeMin)
+				.set("qAgeMax", qAgeMax)
+				.set("qqLength", qqLength);
+		Page<QqData> list = qqDataService.list(pageNumber, pagaSize, param);
+		return list;
+	}
+	
+	/**
+	 * 导出QQ列表
+	 */
+	public void exportTxt() {
+		List<QqData> list = pageList(pageSize).getList();
+		StringBuffer write = new StringBuffer();
+		String tab = "  ";
+		String enter = "\r\n";
+		write.append("编号" + tab).append("QQ" + tab).append("PWD" + tab).append("所属分类" + tab).append("编组" + tab);
+		write.append("标签" + tab).append("入库时间" + tab).append("Q龄" + tab).append("登录次数" + tab).append("仓库状态" + tab);
+		write.append("使用状态" + tab).append("出库时间" + tab).append("剩余天数" + tab);
+		write.append(enter);
+		for (QqData qqData : list) {
+			write.append(qqData.getId() + tab).append(qqData.getQq() + tab).append(qqData.getQqPwd() + tab)
+			.append(QqDataTypeEnum.getName(qqData.getQqType()) + tab).append(qqData.getTeamName() + tab);
+			
+			Date outStorageTime = qqData.getOutStorageTime();
+			write.append(qqData.getTags() + tab).append(DateTimeUtil.formatDateTime(qqData.getInStorageTime(),"yyyy-MM-dd HH:mm")+ tab).append(qqData.getQqAge() + tab)
+			.append(qqData.getLoginCount() + tab).append((outStorageTime==null?"未出库":"出库") + tab);
+			
+			String haveDaysStr = "-";
+			if(outStorageTime!=null){
+				int haveDays = DateTimeUtil.getBetweenDay(DateTimeUtil.formatDateTime(outStorageTime), new Date());
+				haveDaysStr = String.valueOf(qqData.getOutStorageDays() - haveDays);
+			}
+			write.append((qqData.getState()?"可用":"已冻结") + tab).append(outStorageTime==null?"-":DateTimeUtil.formatDateTime(outStorageTime,"yyyy-MM-dd HH:mm") + tab).append(haveDaysStr + tab);
+			
+			write.append(enter);
+		}
+		String webPath = PathKit.getWebRootPath();
+		String pathname = webPath + File.separator + "qq导出数据.txt";
+		File file = new File(pathname);
+		try {
+			TxtExportUtil.createFile(file);
+			TxtExportUtil.writeTxtFile(write.toString(), file);
+			ZipUtil.zip(pathname, webPath, "qq导出数据.zip");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		renderFile(file);
 	}
 	
 	/**
@@ -60,13 +130,12 @@ public class QqDataController extends BaseController {
 	 * 新增QQ
 	 */
 	public void add() {
-		Integer qqType = getParaToInt("qqType");
 		String qqData = getPara("qqData");
 		String teamName = getPara("teamName");
 		String tags = getPara("tags");
 		String costPrice = getPara("costPrice");
 		// 校验qqData格式是否正确
-		boolean validSuccess = validQqData(qqType, qqData);
+		boolean validSuccess = validQqData(qqData);
 		if (!validSuccess) {// 校验失败
 			BaseRenderJson.returnBaseTemplateObj(this, MyErrorCodeConfig.ERROR_BAD_REQUEST, "格式错误");
 			return;
@@ -78,6 +147,18 @@ public class QqDataController extends BaseController {
 			String vals[] = qqDataStrs[i].split("----");
 			String qq = vals[0];
 			String qqPwd = vals[1];
+			int qqType = 1;
+			if(vals.length==2){
+				qqType = 1;
+			}else if(vals.length==8){
+				qqType = 2;
+			}else if(vals.length==9){
+				qqType = 3;
+			}else if(vals.length==10){
+				qqType = 4;
+			}else{
+				qqType = 1;
+			}
 			// 1.保存qqData
 			saveQqData(qq, qqPwd, qqType, tags, teamId, teamName);
 			// 2.保存qqDataBase
@@ -111,6 +192,42 @@ public class QqDataController extends BaseController {
 		}
 		BaseRenderJson.returnUpdateObj(this, true);
 		logger.info("[操作日志]更新密码成功："+qqData);
+	}
+	
+	/**
+	 * 修改QQ标签
+	 */
+	public void updateTag() {
+		String qqData = getPara("qqData");
+		String tags = getPara("tags");
+		String qqDataStrs[] = qqData.split("\n");
+		for (int i = 0; i < qqDataStrs.length; i++) {
+			String qq = qqDataStrs[i];
+			QqData qqDataModel = qqDataService.findByQq(qq);
+			qqDataModel.setTags(tags + "、"+ qqDataModel.getTags());
+			qqDataModel.update();
+		}
+		BaseRenderJson.returnUpdateObj(this, true);
+		logger.info("[操作日志]更新标签成功："+qqData+"，新增标签："+tags);
+	}
+	
+	/**
+	 * 出库
+	 */
+	public void outStorage() {
+		String qqData [] = getParaValues("qq");
+		String tags = getPara("tags");
+		Integer outStorageDays = getParaToInt("outStorageDays");
+		for (int i = 0; i < qqData.length; i++) {
+			String qq = qqData[i];
+			QqData qqDataModel = qqDataService.findByQq(qq);
+			qqDataModel.setTags(tags + "、"+ qqDataModel.getTags());
+			qqDataModel.setOutStorageTime(new Date());
+			qqDataModel.setOutStorageDays(outStorageDays);
+			qqDataModel.update();
+		}
+		BaseRenderJson.returnUpdateObj(this, true);
+		logger.info("[操作日志]出库成功："+qqData);
 	}
 	
 	/**
@@ -253,51 +370,11 @@ public class QqDataController extends BaseController {
 	 * 令牌号 2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox----15243834134----token
 	 * @return
 	 */
-	private boolean validQqData(int qqType, String qqData) {
-		boolean valid = true;
-		switch (qqType) {
-		case 1:
-			valid = validQqData(qqType, qqData, 2);
-			break;
-		case 2:
-			valid = validQqData(qqType, qqData, 8);
-			break;
-		case 3:
-			valid = validQqData(qqType, qqData, 9);
-			break;
-		case 4:
-			valid = validQqData(qqType, qqData, 10);
-			break;
-		default:
-			break;
-		}
-		logger.info("validQqData：" + qqData + "校验结果：" + valid);
-		return valid;
-	}
-	
 	private boolean validQqData(String qqData) {
 		String qqDataStrs[] = qqData.split("\n");
 		for (int i = 0; i < qqDataStrs.length; i++) {
 			String vals[] = qqDataStrs[i].split("----");
 			if (!(vals.length ==2 || vals.length==8 || vals.length==9 || vals.length==10)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * 校验格式
-	 * @param qqType
-	 * @param qqData
-	 * @param length
-	 * @return
-	 */
-	private boolean validQqData(int qqType, String qqData, int length) {
-		String qqDataStrs[] = qqData.split("\n");
-		for (int i = 0; i < qqDataStrs.length; i++) {
-			String vals[] = qqDataStrs[i].split("----");
-			if (vals.length != length) {
 				return false;
 			}
 		}

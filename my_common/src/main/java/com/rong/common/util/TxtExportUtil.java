@@ -1,40 +1,44 @@
 package com.rong.common.util;
 
-import java.io.BufferedOutputStream;
-import java.util.List;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
 
 public class TxtExportUtil {
-	    // 输出TXT  
-	    public static void writeToTxt(HttpServletResponse response, List<Object> list) {  
-	        response.setContentType("text/plain");// 一下两行关键的设置  
-	        response.addHeader("Content-Disposition",  
-	                "attachment;filename=期刊出版社.txt");// filename指定默认的名字  
-	        BufferedOutputStream buff = null;  
-	        StringBuffer write = new StringBuffer();  
-	        String tab = "  ";  
-	        String enter = "\r\n";  
-	        ServletOutputStream outSTr = null;  
-	        try {  
-	            outSTr = response.getOutputStream();// 建立  
-	            buff = new BufferedOutputStream(outSTr);  
-	            for (int i = 0; i < list.size(); i++) {  
-	                write.append("期刊名称：" + tab);  
-	                write.append(enter);          
-	            }  
-	            buff.write(write.toString().getBytes("UTF-8"));  
-	            buff.flush();  
-	            buff.close();  
-	        } catch (Exception e) {  
-	            e.printStackTrace();  
-	        } finally {  
-	            try {  
-	                buff.close();  
-	                outSTr.close();  
-	            } catch (Exception e) {  
-	                e.printStackTrace();  
-	            }  
-	        }  
-	    }  
-	}  
+	public static boolean writeTxtFile(String content, File file) throws Exception {
+		RandomAccessFile mm = null;
+		boolean flag = false;
+		FileOutputStream o = null;
+		try {
+			o = new FileOutputStream(file);
+			o.write(content.getBytes("UTF-8"));
+			o.close();
+			flag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (mm != null) {
+				mm.close();
+			}
+		}
+		return flag;
+	}
+
+	/**
+	 * 创建文件
+	 * @param fileName
+	 * @return
+	 */
+	public static boolean createFile(File file) throws Exception {
+		boolean flag = false;
+		try {
+			if (!file.exists()) {
+				file.createNewFile();
+				flag = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flag;
+	}
+}

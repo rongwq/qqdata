@@ -30,5 +30,13 @@ public interface QqTeamService extends BaseService<QqTeam>{
 	 * @return Long 编组id
 	 */
 	Long save(String name,double costPrice);
+	
+	/**
+	 * 修改编组名称，并将对应的qqData编组名称也修改
+	 * @param id
+	 * @param name
+	 * @return
+	 */
+	boolean updateName(long id,String name);
 }
 

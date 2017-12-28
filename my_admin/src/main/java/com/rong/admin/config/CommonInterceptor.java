@@ -8,7 +8,6 @@ import com.jfinal.core.Controller;
 import com.rong.common.bean.BaseRenderJson;
 import com.rong.common.bean.MyConst;
 import com.rong.common.bean.MyErrorCodeConfig;
-import com.rong.common.exception.g.Exception4View;
 import com.rong.common.util.RequestUtils;
 import com.rong.persist.model.SystemAdmin;
 
@@ -23,8 +22,9 @@ public class CommonInterceptor implements Interceptor {
 	public void intercept(Invocation ai) {
 		try {
 			myIntercept(ai);
-		} catch (Exception4View e) {
-			BaseRenderJson.returnBaseTemplateObj(ai.getController(), MyErrorCodeConfig.REQUEST_FAIL, e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			BaseRenderJson.returnBaseTemplateObj(ai.getController(), MyErrorCodeConfig.REQUEST_FAIL, "系统异常");
 		}
 	}
 

@@ -7,8 +7,8 @@
             <div class="am-u-lg-6 am-u-end">
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="loadRight('<%=basePath %>/views/qq/add.jsp','新增QQ')">入库</button>
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="updatePwd();">密码修改</button>
-                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="updateTags();">标签修改</button>
-                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="updateTeam();">编组修改</button>
+                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="updateTag();">标签修改</button>
+                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="loadRight('<%=basePath %>/qqTeam/list','编组修改');">编组修改</button>
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="outStorage();">出库</button>
             </div>
         </div>
@@ -52,7 +52,7 @@
 	                <select id="state" name="state" class="inline-block">
 	                    <option value="">-请选择-</option>
 	                    <option value="1" <c:if test="${state == 1 }">selected</c:if>>可用</option>
-	                    <option value="2" <c:if test="${state == 2 }">selected</c:if>>已冻结</option>
+	                    <option value="0" <c:if test="${not empty state and state != 1}">selected</c:if>>已冻结</option>
 	                </select>
                 </div>
             </div>
@@ -63,17 +63,17 @@
             <div class="am-u-lg-3">
                 <label for="teamName" class="am-u-sm-4 am-form-label">编组：</label>
                 <div class="am-input-group">
-                    <input type="text" class="am-form-field" name="teamName" value="${qq}" placeholder="请输入编组名称">
+                    <input type="text" class="am-form-field" name="teamName" value="${teamName}" placeholder="请输入编组名称">
                 </div>
             </div>
 
             <div class="am-u-lg-3 am-u-end">
-                <label for="tagsChoose" class="am-u-sm-4 am-form-label">标签：</label> 
-                <div class="am-input-group am-u-sm-5"> 
-	                <select id="tagsChoose" name="tagsChoose" class="inline-block">
+                <label for="isHaveTag" class="am-u-sm-4 am-form-label">标签：</label> 
+                <div class="am-input-group am-u-sm-4"> 
+	                <select id="isHaveTag" name="isHaveTag" class="inline-block">
 	                    <option value="">-请选择-</option>
-	                    <option value="1" <c:if test="${tagsChoose == 1 }">selected</c:if>>包含</option>
-	                    <option value="2" <c:if test="${tagsChoose == 2 }">selected</c:if>>不包含</option>
+	                    <option value="1" <c:if test="${isHaveTag == 1 }">selected</c:if>>包含</option>
+	                    <option value="2" <c:if test="${isHaveTag == 2 }">selected</c:if>>不包含</option>
 	                </select>
                 </div>
                 <div class="am-input-group">
@@ -82,22 +82,33 @@
             </div>
             
             <div class="am-u-lg-3"> 
-                 <label for="maxDays" class="am-u-sm-4 am-form-label">Q龄：小于</label>
+                 <label for="qAgeMin" class="am-u-sm-4 am-form-label">Q龄：小于</label>
                   <div class="am-input-group am-u-sm-8">
-                    <input type="text" class="am-form-field" name="maxDays" value="${qq}" placeholder="小于多少天">
+                    <input type="text" class="am-form-field" name="qAgeMin" value="${qAgeMin}" placeholder="小于多少天">
                   </div>
             </div> 
             <div class="am-u-lg-3"> 
-                  <label for="minDays" class="am-u-sm-4 am-form-label">大于</label>
+                  <label for="qAgeMax" class="am-u-sm-4 am-form-label">大于</label>
                   <div class="am-input-group am-u-sm-8">
-                       <input type="text" class="am-form-field" name="minDays" value="${qq}" placeholder="大于多少天">
+                       <input type="text" class="am-form-field" name="qAgeMax" value="${qAgeMax}" placeholder="大于多少天">
                   </div>
              </div> 
         </div>
         <div class="am-g tpl-amazeui-form">
+            <div class="am-u-lg-3 am-u-end">
+                <label for="qqLength" class="am-u-sm-4 am-form-label">QQ长度：</label>
+                <div class="am-input-group am-u-sm-8"> 
+                    <select id="qqLength" name="qqLength" class="inline-block">
+                        <option value="">-请选择-</option>
+                        <option value="9" <c:if test="${qqLength == 9 }">selected</c:if>>&nbsp;9位</option>
+                        <option value="10" <c:if test="${qqLength == 10 }">selected</c:if>>10位</option>
+                    </select>
+                </div>
+            </div>
+        
             <div class="am-u-lg-6 am-u-end">
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="doQuery();">查询</button>
-                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="doQuery();">导出txt</button>
+                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="exportTxt();">导出txt</button>
             </div>
         </div>
 	</form>
@@ -137,13 +148,13 @@
 								<!-- 根据qq最近登录时间转化为天数  2天没登录红色、1天没登录黄色、当天登录绿色-->
                                 <c:set var="loginDays" value="${nowDate.time - item.loginTime.time}"/>
                                 <c:if test="${loginDays >= 2*1000*60*60*24  }">
-                                    <td class="am-danger">${item.qq }</td>
+                                    <td style="color:red;">${item.qq }</td>
                                 </c:if>
                                 <c:if test="${loginDays >= 1*1000*60*60*24 and loginDays<=2*1000*60*60*24 }">
-                                    <td class="am-active">${item.qq }</td>
+                                    <td style="color:orange;">${item.qq }</td>
                                 </c:if>
                                 <c:if test="${loginDays < 1*1000*60*60*24  }">
-                                    <td class="am-success">${item.qq }</td>
+                                    <td style="color:green;">${item.qq }</td>
                                 </c:if>
 								<td>${item.qqPwd }</td>
 								<td>
@@ -155,9 +166,7 @@
                                 <td>${item.teamName }</td>
                                 <td>${item.tags }</td>
 								<td><fmt:formatDate value="${item.inStorageTime }" pattern="yyyy-MM-dd HH:mm" /></td>
-								<!-- 根据创建时间转化为天数 -->
-								<c:set var="qAge" value="${nowDate.time - item.createTime.time}"/>
-								<td><fmt:formatNumber value="${qAge/1000/60/60/24}" pattern="#0"/></td>
+								<td>${item.qqAge}</td>
 								<td>${item.loginCount }</td>
 								<td>
 								    <c:if test="${empty item.outStorageTime  }">未出仓</c:if>
@@ -184,7 +193,7 @@
 										<div class="am-btn-group am-btn-group-xs">
 											<button type="button" onclick="history( ${item.qq })"
 												class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">查看</button>
-											<button type="button" onclick="delete(${item.id })"
+											<button type="button" onclick="deleteQq(${item.id })"
 												class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">删除</button>
 										</div>
 									</div>

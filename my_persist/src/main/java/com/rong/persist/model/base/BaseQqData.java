@@ -128,5 +128,13 @@ public abstract class BaseQqData<M extends BaseQqData<M>> extends Model<M> imple
 	public java.util.Date getLoginTime() {
 		return get("login_time");
 	}
+	
+	public void setQqAge(java.lang.Integer qqAge) {
+		set("qq_age", qqAge);
+	}
+	
+	public java.lang.Integer getQqAge() {
+		return getInt("qq_age");
+	}
 
 }

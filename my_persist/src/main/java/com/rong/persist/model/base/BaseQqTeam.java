@@ -17,12 +17,12 @@ public abstract class BaseQqTeam<M extends BaseQqTeam<M>> extends Model<M> imple
 		return getLong("id");
 	}
 
-	public void setName(java.lang.String name) {
-		set("name", name);
+	public void setTeamName(java.lang.String teamName) {
+		set("team_name", teamName);
 	}
 
-	public java.lang.String getName() {
-		return getStr("name");
+	public java.lang.String getTeamName() {
+		return getStr("team_name");
 	}
 
 	public void setCostPrice(java.lang.Double costPrice) {
