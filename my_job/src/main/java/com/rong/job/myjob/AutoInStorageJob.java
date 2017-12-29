@@ -27,10 +27,10 @@ public class AutoInStorageJob implements Job{
 	
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		logger.info("开始执行出库的qq自动入库");
 		try{
 			Kv param = Kv.by("storageState", 2);
 			List<QqData> qqDataList = qqDataDao.page(1, 9999, param).getList();
+			int expirCount = 0;
 			for (QqData qqData : qqDataList) {
 				//1.判定qq出库是否到期
 				Date now = new Date();
@@ -38,6 +38,7 @@ public class AutoInStorageJob implements Job{
 				int outStorageDays = qqData.getOutStorageDays();
 				int day = DateTimeUtil.getBetweenDay(outStorageTime, now);
 				if(day > outStorageDays){//过期
+					expirCount++;
 					//2.自动入库
 					qqData.setOutStorageDays(null);
 					qqData.setOutStorageTime(null);
@@ -67,9 +68,9 @@ public class AutoInStorageJob implements Job{
 					}
 				}
 			}
-			logger.info("开始执行出库的qq自动入库数据成功，流程结束");
+			logger.info("执行出库的qq自动入库数据成功，流程结束,执行结果成功数："+expirCount);
 		}catch(Exception e){
-			logger.error("开始执行出库的qq自动入库出现异常");
+			logger.error("执行出库的qq自动入库出现异常");
 		}		
 	}
 }

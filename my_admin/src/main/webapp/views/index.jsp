@@ -98,6 +98,13 @@
 							</shiro:hasPermission>
 							</li>
 							<li>
+                            <shiro:hasPermission name="member-user">
+                            <a href="javascript:loadRight('<%=basePath %>/qq/qqUpdatePwdWaitList','等待修改密码QQ')"> <i
+                                    class="am-icon-angle-right"></i> <span>等待修改密码QQ</span>
+                            </a>
+                            </shiro:hasPermission>
+                            </li>
+							<li>
 							<shiro:hasPermission name="member-user">
 							<a href="javascript:loadRight('<%=basePath %>/views/qq/editPwd.jsp','密码修改')"> <i
 									class="am-icon-angle-right"></i> <span>密码修改</span>
@@ -123,6 +130,24 @@
 						</ul>
 				</li>
 				</shiro:hasPermission>
+				
+                    <shiro:hasPermission name="system">
+                    <li class="tpl-left-nav-item"><a href="javascript:void(0);"
+                        class="nav-link tpl-left-nav-link-list"> <i
+                            class="am-icon-cog"></i> <span>IP管理</span> <i
+                            class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right tpl-left-nav-more-ico-rotate"></i>
+                    </a>
+                        <ul class="tpl-left-nav-sub-menu" style="display: none;">
+                            <li>
+                            <shiro:hasPermission name="system-user">
+                            <a href="javascript:loadRight('<%=basePath %>/ip/list','临时IP库列表')"> <i
+                                    class="am-icon-angle-right"></i> <span>临时IP库列表</span>
+                            </a>
+                            </shiro:hasPermission>
+                            </li>
+                        </ul></li>
+                    </shiro:hasPermission>
+				
 					<shiro:hasPermission name="system">
 					<li class="tpl-left-nav-item"><a href="javascript:void(0);"
 						class="nav-link tpl-left-nav-link-list"> <i
@@ -175,66 +200,6 @@
 			</ol>
 			<!-- 右边主要更新内容 start -->
 			<div id="right">
-				<!-- 统计框 start-->
-				<div class="row">
-					<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-						<div class="dashboard-stat blue">
-							<div class="visual">
-								<i class="am-icon-comments-o"></i>
-							</div>
-							<div class="details">
-								<div class="number" id="productOrderNum">0</div>
-								<div class="desc">昨日订单数量</div>
-							</div>
-							<a class="more" href="#"> 查看更多 <i
-								class="m-icon-swapright m-icon-white"></i>
-							</a>
-						</div>
-					</div>
-					<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-						<div class="dashboard-stat red">
-							<div class="visual">
-								<i class="am-icon-bar-chart-o"></i>
-							</div>
-							<div class="details">
-								<div class="number" id="orderNum">0</div>
-								<div class="desc">昨日订单数量</div>
-							</div>
-							<a class="more" href="#"> 查看更多 <i
-								class="m-icon-swapright m-icon-white"></i>
-							</a>
-						</div>
-					</div>
-					<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-						<div class="dashboard-stat green">
-							<div class="visual">
-								<i class="am-icon-apple"></i>
-							</div>
-							<div class="details">
-								<div class="number" id="regUserYesterDay_count" >0</div>
-								<div class="desc">昨日注册用户数量</div>
-							</div>
-							<a class="more" href="#"> 查看更多 <i
-								class="m-icon-swapright m-icon-white"></i>
-							</a>
-						</div>
-					</div>
-					<div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
-						<div class="dashboard-stat purple">
-							<div class="visual">
-								<i class="am-icon-android"></i>
-							</div>
-							<div class="details">
-								<div class="number" id="activeUserYesterDay_count" >0</div>
-								<div class="desc">昨日活跃用户数量</div>
-							</div>
-							<a class="more" href="#"> 查看更多 <i
-								class="m-icon-swapright m-icon-white"></i>
-							</a>
-						</div>
-					</div>
-				</div>
-				<!-- 统计框 end-->
 				<!-- 动态资料 start-->
 				<div class="row">
 					<div class="am-u-md-6 am-u-sm-12 row-mb">

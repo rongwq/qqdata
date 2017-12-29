@@ -3,7 +3,7 @@
 
 <div class="tpl-portlet-components">
 	<form class="am-form am-form-horizontal" id="queryForm" role="form" action="<%=basePath %>/qq/list">
-	       <div class="am-g tpl-amazeui-form">
+	    <div class="am-g tpl-amazeui-form">
             <div class="am-u-lg-6 am-u-end">
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="loadRight('<%=basePath %>/views/qq/add.jsp','新增QQ')">入库</button>
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="updatePwd();">密码修改</button>

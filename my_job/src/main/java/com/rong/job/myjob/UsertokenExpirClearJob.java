@@ -9,7 +9,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.rong.persist.model.UserToken;
 
 public class UsertokenExpirClearJob implements Job{
-	private static final Logger logger = Logger.getLogger(UsertokenExpirClearJob.class);
+	private final Logger logger = Logger.getLogger(this.getClass());
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {

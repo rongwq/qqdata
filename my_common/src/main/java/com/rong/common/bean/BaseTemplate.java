@@ -1,5 +1,10 @@
 package com.rong.common.bean;
 
+/**
+ * 接口统一返回格式
+ * @author Wenqiang-Rong
+ * @date 2017年12月29日
+ */
 public class BaseTemplate {
 	private String resultCode;
 	private String resultDes;

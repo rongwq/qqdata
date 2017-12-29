@@ -20,6 +20,7 @@ import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
 import com.rong.admin.controller.AdminController;
 import com.rong.admin.controller.IndexController;
+import com.rong.admin.controller.IpTempController;
 import com.rong.admin.controller.LogController;
 import com.rong.admin.controller.QqDataController;
 import com.rong.admin.controller.QqTeamController;
@@ -97,6 +98,7 @@ public class MyConfig extends JFinalConfig {
 		me.add("/log", LogController.class);
 		me.add("/qq",QqDataController.class);
 		me.add("/qqTeam",QqTeamController.class);
+		me.add("/ip",IpTempController.class);
 	}
 
 	@Override

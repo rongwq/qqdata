@@ -17,12 +17,15 @@ import com.rong.persist.enums.QqDataTypeEnum;
 import com.rong.persist.model.QqData;
 import com.rong.persist.model.QqDataBase;
 import com.rong.persist.model.QqDataBaseHistory;
+import com.rong.persist.model.QqUpdatePwdWait;
 import com.rong.user.service.QqDataBaseHistoryService;
 import com.rong.user.service.QqDataBaseHistoryServiceImpl;
 import com.rong.user.service.QqDataService;
 import com.rong.user.service.QqDataServiceImpl;
 import com.rong.user.service.QqTeamService;
 import com.rong.user.service.QqTeamServiceImpl;
+import com.rong.user.service.QqUpdatePwdWaitService;
+import com.rong.user.service.QqUpdatePwdWaitServiceImpl;
 
 /**
  * qq数据管理
@@ -35,6 +38,7 @@ public class QqDataController extends BaseController {
 	private QqDataService qqDataService = new QqDataServiceImpl();
 	private QqTeamService qqTeamService = new QqTeamServiceImpl();
 	private QqDataBaseHistoryService qqDataBaseHistoryService = new QqDataBaseHistoryServiceImpl();
+	private QqUpdatePwdWaitService qqUpdatePwdWaitService = new QqUpdatePwdWaitServiceImpl();
 
 	/**
 	 * QQ列表
@@ -231,6 +235,51 @@ public class QqDataController extends BaseController {
 	}
 	
 	/**
+	 * 新增待修改密码的QQ
+	 */
+	public void addUpdatePwdWait() {
+		String qqData = getPara("qqData");
+		String qqDataStrs[] = qqData.split("\n");
+		Date now = new Date();
+		for (int i = 0; i < qqDataStrs.length; i++) {
+			String vals[] = qqDataStrs[i].split("----");
+			QqUpdatePwdWait waitPwd = new QqUpdatePwdWait();
+			waitPwd.setCreateTime(now);
+			waitPwd.setQq(vals[0]);
+			waitPwd.setTokenCode(vals[1]);
+			waitPwd.save();
+		}
+		BaseRenderJson.returnAddObj(this, true);
+		logger.info("[操作日志]新增待修改密码的QQ成功："+qqData);
+	}
+	
+	/**
+	 * 待修改密码的QQ列表
+	 */
+	public void qqUpdatePwdWaitList() {
+		int pageNumber = getParaToInt("page", 1);
+		Page<QqUpdatePwdWait> list = qqUpdatePwdWaitService.list(pageNumber, pageSize);
+		keepPara();
+		setAttr("page", list);
+		setAttr("nowDate", new Date());
+		render("/views/qq/listQqUpdatePwdWait.jsp");
+	}
+	
+	/**
+	 * 删除待修改密码的QQ
+	 */
+	public void deleteUpdatePwdWait() {
+		Long id = getParaToLong("id");
+		if (qqUpdatePwdWaitService.deleteById(id)) {
+			BaseRenderJson.returnDelObj(this, true);
+			logger.info("[操作日志]删除待修改密码的QQid:" + id + "成功");
+		} else {
+			BaseRenderJson.returnDelObj(this, false);
+			logger.error("[操作日志]删除待修改密码的QQid:" + id + "失败");
+		}
+	}
+	
+	/**
 	 * 保存qqData
 	 * @param qq
 	 * @param qqPwd
@@ -393,6 +442,5 @@ public class QqDataController extends BaseController {
 			BaseRenderJson.returnDelObj(this, false);
 			logger.error("[操作日志]删除QQ数据id:" + id + "失败");
 		}
-
 	}
 }

@@ -7,13 +7,12 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
-import com.jfinal.plugin.activemq.ActiveMqPlugin;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByActionKeys;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.plugin.redis.RedisPlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
+import com.rong.api.controller.IpController;
 import com.rong.api.controller.JsRsaController;
 import com.rong.common.bean.MyConst;
 import com.rong.persist.model._MappingKit;
@@ -51,11 +50,6 @@ public class MyConfig extends JFinalConfig {
 		me.setDevMode(MyConst.devMode);
 		me.setViewType(ViewType.JSP);
 		me.setEncoding("UTF8");
-//		me.setBaseUploadPath(File.separator);// 設定文件保存  使用默认路径，不需要设置
-		me.setError404View("/views/common/404.jsp");
-		me.setError500View("/views/common/500.jsp");
-		me.setErrorView(401, "/views/login.jsp");
-		me.setErrorView(403, "/views/login.jsp");
 		initConst();
 	}
 	
@@ -69,6 +63,7 @@ public class MyConfig extends JFinalConfig {
 	@Override
 	public void configRoute(Routes me) {
 		me.add("/api/jsrsa", JsRsaController.class);
+		me.add("/api/ip", IpController.class);
 
 	}
 
@@ -84,14 +79,6 @@ public class MyConfig extends JFinalConfig {
 		final String password = getProperty("password").trim();
 		final String instance_read_source1_jdbcUrl = getProperty("jdbcUrl");
 		dataSourceConfig(me, instance_read_source1_jdbcUrl, username, password);
-		
-		RedisPlugin redisPlugin = new RedisPlugin("redis", getProperty("redis.host"), getPropertyToInt("redis.port"), getProperty("redis.password"));
-		me.add(redisPlugin);
-		
-		ActiveMqPlugin activeMqPlugin = null;
-		activeMqPlugin = new ActiveMqPlugin(getProperty("activeMq.username"),getProperty("activeMq.password"),getProperty("activeMq.host"),getProperty("activeMq.port"));
-        me.add(activeMqPlugin);
-
 	}
 	
 	private void dataSourceConfig(Plugins me, String source1_url, String username, String password) {
@@ -115,7 +102,7 @@ public class MyConfig extends JFinalConfig {
 		logDruid.setInitialSize(2).setMaxActive(300).setMinIdle(50).setTestOnBorrow(false).setMaxWait(1000);
 		me.add(logDruid);
 		// 配置ActiveRecord插件
-		ActiveRecordPlugin logArp = new ActiveRecordPlugin("yzglog", logDruid);
+		ActiveRecordPlugin logArp = new ActiveRecordPlugin("log", logDruid);
 		if (MyConst.devMode) {
 			logArp.setShowSql(true);
 		}
@@ -140,7 +127,4 @@ public class MyConfig extends JFinalConfig {
 		System.out.println("api 启动成功");
 		super.afterJFinalStart();
 	}
-	
-	
-
 }

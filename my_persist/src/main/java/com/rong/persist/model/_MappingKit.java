@@ -16,6 +16,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 
 	public static void mapping(ActiveRecordPlugin arp) {
+		arp.addMapping("ip_temp", "id", IpTemp.class);
 		arp.addMapping("qq_data", "id", QqData.class);
 		arp.addMapping("qq_data_base", "id", QqDataBase.class);
 		arp.addMapping("qq_data_base_history", "id", QqDataBaseHistory.class);

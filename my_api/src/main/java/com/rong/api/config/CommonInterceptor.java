@@ -14,9 +14,7 @@ import com.jfinal.core.Controller;
 import com.rong.common.bean.BaseRenderJson;
 import com.rong.common.bean.MyConst;
 import com.rong.common.bean.MyErrorCodeConfig;
-import com.rong.common.exception.g.Exception4View;
 import com.rong.common.util.PropertiesUtils;
-import com.rong.common.util.RSAUtil;
 import com.rong.common.util.RequestUtils;
 import com.rong.common.util.StringUtils;
 import com.rong.persist.dao.UserTokenDao;
@@ -25,6 +23,7 @@ import com.rong.persist.model.UserToken;
 public class CommonInterceptor implements Interceptor {
 
 	private static final Logger logger = Logger.getLogger(CommonInterceptor.class);
+	private Long userId;
 
 	/**
 	 * 控制器操作主逻辑 加入事务操作
@@ -35,14 +34,15 @@ public class CommonInterceptor implements Interceptor {
 	private boolean doMain(Invocation ai) {
 		try {
 			ai.invoke();// 然后调用
-		} catch (Exception4View e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			BaseRenderJson.returnBaseTemplateObj(ai.getController(), MyErrorCodeConfig.REQUEST_FAIL, e.getMessage());
 		}
 		return true;
 	}
 
 	@Override
-	public void intercept(Invocation ai) {
+	public void intercept(Invocation ai){
 		// 添加跨域
 		checkAndSetTrustURL(ai.getController().getRequest(), ai.getController().getResponse());
 		Controller controller = ai.getController();
@@ -64,46 +64,33 @@ public class CommonInterceptor implements Interceptor {
 			}
 			// 验证token和当前操作路径权限
 			String token = controller.getPara("token");
-			String userId = controller.getPara("userId");
-			if (StringUtils.isNullOrEmpty(token) || StringUtils.isNullOrEmpty(userId)) {
+			userId = controller.getParaToLong("userId");
+			if (StringUtils.isNullOrEmpty(token) || userId ==null) {
 				BaseRenderJson.baseRenderObj.returnUserIdErrorObj(controller);
 				return;
-			} else {
-				token = RSAUtil.decrypt(token);
-				if (null == token) {
-					logger.error("action : " + actionName + "," + token + " token 解密错误. ");
-					return;
-				}
 			}
 			MDC.put("userId", userId);// 设置log4j的用户id-不同线程都有自己的MDC的key
-			try {
-				UserTokenDao userTokenDao = new UserTokenDao();
-				UserToken resultToken = userTokenDao.getByUserId(Long.parseLong(userId));
-				// 判断token
-				if (null != resultToken) {
-					if (!token.equals(resultToken.get("token"))) {
-						BaseRenderJson.baseRenderObj.returnTokenErrorObj(controller, 2);
-						return;
-					}
-					if (!resultToken.getIsExpir()) {
-						doMain(ai);
-						return;
-					} else {
-						BaseRenderJson.baseRenderObj.returnUserIdErrorObj(controller);
-						return;
-					}
+			UserTokenDao userTokenDao = new UserTokenDao();
+			UserToken resultToken = userTokenDao.getByUserId(userId);
+			// 判断token
+			if (null != resultToken) {
+				if (!token.equals(resultToken.get("token"))) {
+					BaseRenderJson.baseRenderObj.returnTokenErrorObj(controller, 2);
+					return;
+				}
+				if (!resultToken.getIsExpir()) {
+					doMain(ai);
+					return;
 				} else {
 					BaseRenderJson.baseRenderObj.returnUserIdErrorObj(controller);
 					return;
 				}
-			} catch (Exception e) {
-				logger.error("[CommonInterceptor] error : " + e.getMessage(), e);
-				BaseRenderJson.returnObjectTmplate(controller, "500", null, e.getMessage());
+			} else {
+				BaseRenderJson.baseRenderObj.returnUserIdErrorObj(controller);
 				return;
 			}
-		} else {
-			doMain(ai);
 		}
+		doMain(ai);
 	}
 
 	private static void checkAndSetTrustURL(HttpServletRequest request, HttpServletResponse response) {

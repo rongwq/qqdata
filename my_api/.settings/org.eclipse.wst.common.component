@@ -10,6 +10,9 @@
         <dependent-module archiveName="my_persist-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/my_persist/my_persist">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="my_user-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/my_user/my_user">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="my_api"/>
         <property name="java-output-path" value="/my_api/target/classes"/>
     </wb-module>

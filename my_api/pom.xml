@@ -21,9 +21,17 @@
       <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>
+    
     <dependency>
       <groupId>rong.persist</groupId>
       <artifactId>my_persist</artifactId>
+      <version>1.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>rong.user</groupId>
+      <artifactId>my_user</artifactId>
       <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>

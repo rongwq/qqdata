@@ -76,6 +76,18 @@ public class BaseRenderJson {
 		String json = "{\"resultCode\":\"" + flag + "\",\"resultDes\":\"" + tags + "\"}";
 		ai.renderJson(json);
 	}
+	
+	/**
+	 * 结果返回字符串
+	 * 
+	 * @param ai
+	 * @param flag
+	 * @param tags
+	 */
+	public static void apiReturnJson(Controller ai, String flag, String tags) {
+		String json = "{\"resultCode\":\"" + flag + "\",\"resultDes\":\"" + tags + "\"}";
+		ai.renderJson(json);
+	}
 
 	/**
 	 * 删除
