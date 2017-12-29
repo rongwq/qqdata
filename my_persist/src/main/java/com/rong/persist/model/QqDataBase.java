@@ -52,7 +52,7 @@ public class QqDataBase extends BaseQqDataBase<QqDataBase> {
 	}
 	
 	// 令牌号格式
-	public QqDataBase(String qq,String qqPwd,String question1,String question1_answer,String question2,String question2_answer,String question3,String question3_answer,String mobile,String token){
+	public QqDataBase(String qq,String qqPwd,String question1,String question1_answer,String question2,String question2_answer,String question3,String question3_answer,String mobile,String tokenCode){
 		Date now = new Date();
 		this.setCreateTime(now);
 		this.setPwd(qqPwd);
@@ -64,6 +64,6 @@ public class QqDataBase extends BaseQqDataBase<QqDataBase> {
 		this.setQuestion3(question3);
 		this.setQuestion3Answer(question3_answer);
 		this.setMobile(mobile);
-		this.setToken(token);
+		this.setTokenCode(tokenCode);
 	}
 }

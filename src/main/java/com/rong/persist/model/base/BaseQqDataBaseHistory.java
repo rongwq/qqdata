@@ -112,7 +112,7 @@ public abstract class BaseQqDataBaseHistory<M extends BaseQqDataBaseHistory<M>> 
 	public java.lang.String getToken() {
 		return getStr("token");
 	}
-	
+
 	public void setTokenCode(java.lang.String tokenCode) {
 		set("token_code", tokenCode);
 	}

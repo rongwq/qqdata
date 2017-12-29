@@ -8,9 +8,8 @@ import com.rong.persist.model.QqData;
 
 /**
  * qq数据dao
- * 
  * @author Wenqiang-Rong
- *
+ * @date 2017年12月29日
  */
 public class QqDataDao extends BaseDao<QqData> {
 

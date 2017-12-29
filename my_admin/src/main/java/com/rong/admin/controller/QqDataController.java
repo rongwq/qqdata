@@ -94,7 +94,7 @@ public class QqDataController extends BaseController {
 			
 			String haveDaysStr = "-";
 			if(outStorageTime!=null){
-				int haveDays = DateTimeUtil.getBetweenDay(DateTimeUtil.formatDateTime(outStorageTime), new Date());
+				int haveDays = DateTimeUtil.getBetweenDay(outStorageTime, new Date());
 				haveDaysStr = String.valueOf(qqData.getOutStorageDays() - haveDays);
 			}
 			write.append((qqData.getState()?"可用":"已冻结") + tab).append(outStorageTime==null?"-":DateTimeUtil.formatDateTime(outStorageTime,"yyyy-MM-dd HH:mm") + tab).append(haveDaysStr + tab);
@@ -266,7 +266,7 @@ public class QqDataController extends BaseController {
 		QqDataBase qqDataBase = null;
 		String qq = vals[0];
 		String qqPwd = vals[1];
-		String question1,question1_answer,question2,question2_answer,question3,question3_answer,mobile,token;
+		String question1,question1_answer,question2,question2_answer,question3,question3_answer,mobile,tokenCode;
 		switch (qqType) {
 		case 1:// 白号
 			qqDataBase = new QqDataBase(qq, qqPwd);
@@ -298,8 +298,8 @@ public class QqDataController extends BaseController {
 			question3 = vals[6];
 			question3_answer = vals[7];
 			mobile = vals[8];
-			token = vals[9];
-			qqDataBase = new QqDataBase(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile,token);
+			tokenCode = vals[9];
+			qqDataBase = new QqDataBase(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile,tokenCode);
 			break;
 		default:
 			return false;
@@ -316,7 +316,7 @@ public class QqDataController extends BaseController {
 	private boolean saveQqDataBaseHistory(int qqType,String vals []){
 		String qq = vals[0];
 		String qqPwd = vals[1];
-		String question1,question1_answer,question2,question2_answer,question3,question3_answer,mobile,token;
+		String question1,question1_answer,question2,question2_answer,question3,question3_answer,mobile,tokenCode;
 		QqDataBaseHistory qqDataBaseHistory = null;
 		switch (qqType) {
 		case 1:// 白号
@@ -349,8 +349,8 @@ public class QqDataController extends BaseController {
 			question3 = vals[6];
 			question3_answer = vals[7];
 			mobile = vals[8];
-			token = vals[9];
-			qqDataBaseHistory = new QqDataBaseHistory(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile,token);
+			tokenCode = vals[9];
+			qqDataBaseHistory = new QqDataBaseHistory(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile,tokenCode);
 			break;
 		default:
 			return false;

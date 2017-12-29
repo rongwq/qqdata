@@ -10,7 +10,6 @@ import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.ext.plugin.quartz.QuartzPlugin3;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.plugin.redis.RedisPlugin;
 import com.jfinal.template.Engine;
 import com.rong.common.bean.MyConst;
 import com.rong.persist.model._MappingKit;
@@ -64,10 +63,6 @@ public class MyConfig extends JFinalConfig {
 		final String password = getProperty("password").trim();
 		final String instance_read_source1_jdbcUrl = getProperty("jdbcUrl");
 		dataSourceConfig(me, instance_read_source1_jdbcUrl, username, password);
-		
-		RedisPlugin redisPlugin = new RedisPlugin("redis", getProperty("redis.host"), getPropertyToInt("redis.port"), getProperty("redis.password"));
-		me.add(redisPlugin);
-		
 		QuartzPlugin3 quartzPlugin =  new QuartzPlugin3("job.properties");
 		me.add(quartzPlugin);
 

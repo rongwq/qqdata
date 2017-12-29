@@ -7,6 +7,11 @@ import com.rong.common.util.StringUtils;
 import com.rong.persist.base.BaseDao;
 import com.rong.persist.model.SystemResource;
 
+/**
+ * 系统资源dao
+ * @author Wenqiang-Rong
+ * @date 2017年12月29日
+ */
 public class SystemResourceDao extends BaseDao<SystemResource>{
 	private SystemResource dao = SystemResource.dao;
 	

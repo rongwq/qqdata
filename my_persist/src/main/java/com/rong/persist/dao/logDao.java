@@ -7,6 +7,11 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.rong.persist.base.BaseDao;
 
+/**
+ * 日志dao
+ * @author Wenqiang-Rong
+ * @date 2017年12月29日
+ */
 public class logDao extends BaseDao<Record>{
 	public Page<Record> list(int pageNumber, int pageSize, Map<String, Object> parMap) {
 		String sqlSelect = "select * ";

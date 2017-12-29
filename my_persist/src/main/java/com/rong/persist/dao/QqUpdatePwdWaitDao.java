@@ -3,22 +3,22 @@ package com.rong.persist.dao;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Page;
 import com.rong.persist.base.BaseDao;
-import com.rong.persist.model.QqTeam;
+import com.rong.persist.model.QqUpdatePwdWait;
 
 /**
- * 编组dao
+ * 等待修改密码dao
  * @author Wenqiang-Rong
  * @date 2017年12月29日
  */
-public class QqTeamDao extends BaseDao<QqTeam> {
+public class QqUpdatePwdWaitDao extends BaseDao<QqUpdatePwdWait> {
 
-	public static final QqTeam dao = QqTeam.dao;
+	public static final QqUpdatePwdWait dao = QqUpdatePwdWait.dao;
 
-	public static final String FILEDS = "id,team_name,cost_price,qq_count,qq_count_lived,create_time,update_time";
+	public static final String FILEDS = "id,qq,token_code,create_time,update_time";
 
-	public Page<QqTeam> page(int pageNumber, int pageSize, Kv param) {
+	public Page<QqUpdatePwdWait> page(int pageNumber, int pageSize, Kv param) {
 		String select = "select " + FILEDS;
-		String sqlExceptSelect = "from " + QqTeam.TABLE;
+		String sqlExceptSelect = "from " + QqUpdatePwdWait.TABLE;
 		StringBuffer where = new StringBuffer(" where 1=1");
 		String orderBy = " order by create_time desc";
 		sqlExceptSelect = sqlExceptSelect + where + orderBy;

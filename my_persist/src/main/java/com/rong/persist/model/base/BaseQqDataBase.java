@@ -112,5 +112,13 @@ public abstract class BaseQqDataBase<M extends BaseQqDataBase<M>> extends Model<
 	public java.lang.String getToken() {
 		return getStr("token");
 	}
+	
+	public void setTokenCode(java.lang.String tokenCode) {
+		set("token_code", tokenCode);
+	}
+
+	public java.lang.String getTokenCode() {
+		return getStr("token_code");
+	}
 
 }

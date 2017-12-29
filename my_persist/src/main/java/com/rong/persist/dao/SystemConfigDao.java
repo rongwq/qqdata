@@ -7,6 +7,11 @@ import com.rong.common.util.StringUtils;
 import com.rong.persist.base.BaseDao;
 import com.rong.persist.model.SystemConfig;
 
+/**
+ * 系统配置dao
+ * @author Wenqiang-Rong
+ * @date 2017年12月29日
+ */
 public class SystemConfigDao  extends BaseDao<SystemConfig>{
 	private SystemConfig dao = SystemConfig.dao;
 	

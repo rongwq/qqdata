@@ -190,9 +190,9 @@ public class DateTimeUtil {
 	 * @param afterDate 结束时间
 	 * @return 相差多少天
 	 */
-	public static Integer getBetweenDay(String startDate, Date afterDate) {
+	public static Integer getBetweenDay(Date startDate, Date afterDate) {
 		Calendar start = Calendar.getInstance();
-		start.setTime(parseDateTime(startDate));
+		start.setTime(startDate);
 		long startTime = start.getTimeInMillis();
 		Calendar after = Calendar.getInstance();
 		after.setTime(afterDate);
