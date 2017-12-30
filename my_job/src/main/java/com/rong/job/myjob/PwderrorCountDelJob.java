@@ -18,6 +18,7 @@ public class PwderrorCountDelJob implements Job{
 			Db.update("delete from "+UserPwderrorStatis.TABLE +" where id>0");
 			logger.info("定时清理密码错误次数记录表成功，流程结束");
 		}catch(Exception e){
+			e.printStackTrace();
 			logger.error("定时清理密码错误次数记录出现异常");
 		}		
 	}

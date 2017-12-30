@@ -137,4 +137,12 @@ public abstract class BaseQqData<M extends BaseQqData<M>> extends Model<M> imple
 		return getInt("qq_age");
 	}
 
+	public void setToken(java.lang.String token) {
+		set("token", token);
+	}
+
+	public java.lang.String getToken() {
+		return getStr("token");
+	}
+
 }

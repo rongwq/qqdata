@@ -20,6 +20,7 @@ public class UsertokenExpirClearJob implements Job{
 			Db.update(sql, newTime);
 			logger.info("定时清理用户过期token数据成功，流程结束");
 		}catch(Exception e){
+			e.printStackTrace();
 			logger.error("定时清理用户过期token数据出现异常");
 		}		
 	}

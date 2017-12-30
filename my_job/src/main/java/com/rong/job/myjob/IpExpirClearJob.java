@@ -22,6 +22,7 @@ public class IpExpirClearJob implements Job{
 			int count = dao.cleanExpir();
 			logger.info("清理过期IP数据成功，清理IP数量："+count);
 		}catch(Exception e){
+			e.printStackTrace();
 			logger.error("清理过期IP数据出现异常"+e);
 		}		
 	}

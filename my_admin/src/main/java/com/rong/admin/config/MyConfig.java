@@ -24,6 +24,7 @@ import com.rong.admin.controller.IpTempController;
 import com.rong.admin.controller.LogController;
 import com.rong.admin.controller.QqDataController;
 import com.rong.admin.controller.QqTeamController;
+import com.rong.admin.controller.ReportController;
 import com.rong.admin.controller.ResourceController;
 import com.rong.admin.controller.RoleController;
 import com.rong.admin.controller.SystemConfigController;
@@ -99,6 +100,7 @@ public class MyConfig extends JFinalConfig {
 		me.add("/qq",QqDataController.class);
 		me.add("/qqTeam",QqTeamController.class);
 		me.add("/ip",IpTempController.class);
+		me.add("/report",ReportController.class);
 	}
 
 	@Override

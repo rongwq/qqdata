@@ -70,6 +70,7 @@ public class AutoInStorageJob implements Job{
 			}
 			logger.info("执行出库的qq自动入库数据成功，流程结束,执行结果成功数："+expirCount);
 		}catch(Exception e){
+			e.printStackTrace();
 			logger.error("执行出库的qq自动入库出现异常");
 		}		
 	}

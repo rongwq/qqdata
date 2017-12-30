@@ -1,7 +1,11 @@
 package com.rong.persist.dao;
 
+import java.util.List;
+
 import com.jfinal.kit.Kv;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import com.rong.common.util.StringUtils;
 import com.rong.persist.base.BaseDao;
 import com.rong.persist.model.QqData;
@@ -106,5 +110,33 @@ public class QqDataDao extends BaseDao<QqData> {
 	public boolean deleteById(long id){
 		QqData qqData = findById(id);
 		return qqData.delete();
+	}
+	
+	public List<Record> qqTypeStatis(){
+		String sql = "select qq_type qqType,count(*) allCount,count(if(state=1,true,null)) storageCount,count(if(out_storage_time is not null,true,null)) outStorageCount from qq_data group by qq_type";
+		return Db.find(sql);
+	}
+	
+	/**
+	 * 统计产量明细
+	 * 日期  编组 QQ数量 存活率 活号成本 白号   三问号  绑机号  令牌号 冻结号
+	 * @return
+	 */
+	public List<Record> qqStatis(){
+		String sql = "SELECT q.team_name teamName,"+
+		"count(*) allCount,"+
+		"count(IF(q.state = 1, TRUE, NULL)) aliveCount,"+
+		"count(IF(q.state = 0, TRUE, NULL)) unaliveCount,"+
+		"count(IF(q.qq_type = 1, TRUE, NULL)) whiteCount,"+
+		"count(IF(q.qq_type = 2, TRUE, NULL)) threeCount,"+
+		"count(IF(q.qq_type = 3, TRUE, NULL)) mobileCount,"+
+		"count(IF(q.qq_type = 4, TRUE, NULL)) tokenCount,"+
+		"t.cost_price costPrice "+
+		"FROM qq_data q,qq_team t "+
+		"WHERE q.team_id = t.id AND ("+
+		"DATEDIFF(now(), q.create_time) = 1 "+
+		"OR DATEDIFF(now(), q.update_time) = 1) "+
+		"GROUP BY q.team_name";
+		return Db.find(sql);
 	}
 }

@@ -147,6 +147,23 @@
                             </li>
                         </ul></li>
                     </shiro:hasPermission>
+                    
+                    <shiro:hasPermission name="system">
+                    <li class="tpl-left-nav-item"><a href="javascript:void(0);"
+                        class="nav-link tpl-left-nav-link-list"> <i
+                            class="am-icon-cog"></i> <span>报表</span> <i
+                            class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right tpl-left-nav-more-ico-rotate"></i>
+                    </a>
+                        <ul class="tpl-left-nav-sub-menu" style="display: none;">
+                            <li>
+                            <shiro:hasPermission name="system-user">
+                            <a href="javascript:loadRight('<%=basePath %>/report/qqStatis','产量明细报表')"> <i
+                                    class="am-icon-angle-right"></i> <span>产量明细报表</span>
+                            </a>
+                            </shiro:hasPermission>
+                            </li>
+                        </ul></li>
+                    </shiro:hasPermission>
 				
 					<shiro:hasPermission name="system">
 					<li class="tpl-left-nav-item"><a href="javascript:void(0);"
@@ -206,29 +223,31 @@
 						<div class="tpl-portlet">
 							<div class="tpl-portlet-title">
 								<div class="tpl-caption font-red ">
-									<i class="am-icon-bar-chart"></i> <span> 排行榜</span>
+									<i class="am-icon-bar-chart"></i> <span> qq数据统计</span>
 								</div>
-
 							</div>
 							<div class="tpl-scrollable">
 								<table class="am-table tpl-table">
 									<thead>
 										<tr class="tpl-table-uppercase">
-											<th>xx</th>
-											<th>金额</th>
-											<th>次数</th>
-											<th>好评率</th>
+											<th>号码分类</th>
+											<th>总数量</th>
+											<th>库存</th>
+											<th>出仓量</th>
 										</tr>
 									</thead>
-									<tbody class="data-item">
-										<tr>
-											<td><img src="" alt=""
-												class="user-pic"> <a class="user-name" href="###"></a>
+									<tbody class="data-item" id="qqStatis">
+										<%-- <tr>
+											<td>
+											    <c:if test="${item.qqType == 1 }">白号</c:if>
+                                                <c:if test="${item.qqType == 2 }">三问号</c:if>
+                                                <c:if test="${item.qqType == 3 }">绑机号</c:if>
+                                                <c:if test="${item.qqType == 4 }">令牌号</c:if>
 											</td>
-											<td></td>
-											<td></td>
-											<td class="font-green bold"></td>
-										</tr>
+											<td>${item.allCount }</td>
+											<td>${item.storageCount }</td>
+											<td>${item.outStorageCount }</td>
+										</tr> --%>
 									</tbody>
 								</table>
 							</div>
@@ -241,15 +260,9 @@
 						<div class="tpl-portlet">
 							<div class="tpl-portlet-title">
 								<div class="tpl-caption font-green ">
-									<i class="am-icon-cloud-download"></i> <span> 用户数据统计</span>
-								</div>
-								<div class="actions">
-									<ul class="actions-btn">
-										<li class="blue">最近7天</li>
-									</ul>
+									<i class="am-icon-cloud-download"></i> <span> qq库存数据统计图</span>
 								</div>
 							</div>
-
 							<!--此部分数据请在 js文件夹下中的 app.js 中的 “百度图表A” 处修改数据 插件使用的是 百度echarts-->
 							<div class="tpl-echarts" id="tpl-echarts-A"></div>
 						</div>

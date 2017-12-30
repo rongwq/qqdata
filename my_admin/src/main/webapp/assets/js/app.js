@@ -12,7 +12,7 @@ $(function() {
 		var dataType = $('body').attr('data-type');
         for (key in pageData) {
             if (key == dataType) {
-//                pageData[key]();
+                pageData[key]();
             }
         }
     })
@@ -54,72 +54,83 @@ $("a").click(function(){
 
 var pageData = {
 	// ===============================================
-    // 后台首页-用户相关报表数据
+    // 后台首页-报表数据
     // ===============================================
 		
     'index': function indexData() {
     	var actList,regList,dayList;
-//    	$.ajax({
-//			url:getRootPath()+"/getUserStats",
-//			async : false
-//		}).done(function(dataInfo){
-//			$("#regUserYesterDay_count").html(dataInfo.registerUserCountYesterday);
-//			$("#activeUserYesterDay_count").html(dataInfo.activeUserCountYesterday);
-//			actList = dataInfo.actList; 
-//			regList = dataInfo.regList; 
-//			dayList = dataInfo.dayList; 
-//			
-//			//填入数据，开始画图
-//			var echartsA = echarts.init(document.getElementById('tpl-echarts-A'));
-//	        option = {
-//
-//	            tooltip: {
-//	                trigger: 'axis',
-//	            },
-//	            legend: {
-//	                data: ['注册', '活跃']
-//	            },
-//	            grid: {
-//	                left: '3%',
-//	                right: '4%',
-//	                bottom: '3%',
-//	                containLabel: true
-//	            },
-//	            xAxis: [{
-//	                type: 'category',
-//	                boundaryGap: true,
-//	                data:JSON.parse(dayList),
-//	            }],
-//
-//	            yAxis: [{
-//	                type: 'value'
-//	            }],
-//	            series: [{
-//	                    name: '注册',
-//	                    type: 'line',
-//	                    data:JSON.parse(regList),
-//	                    itemStyle: {
-//	                        normal: {
-//	                            color: '#59aea2'
-//	                        }
-//	                    }
-//	                },
-//	                {
-//	                    name: '活跃',
-//	                    type: 'line',
-//	                    data:JSON.parse(actList),
-//	                    itemStyle: {
-//	                        normal: {
-//	                            color: '#e7505a'
-//	                        }
-//	                    }
-//	                }
-//	               
-//	            ]
-//	        }; 
-//	        echartsA.setOption(option);
-//			 
-//		});
+    	$.ajax({
+			url:getRootPath()+"/qqTypeStatis",
+			async : false
+		}).done(function(dataInfo){
+			var data = dataInfo.resultData;
+			//qq数据赋值
+			var qqStatisStr = "";
+			var qqTypeArr = [];
+			var qqTypeArrVal = [];
+			for (var i = 0; i < data.length; i++) {
+				var qqType = "";
+				if(data[i].qqType==1){
+					qqType = "白号";
+				}else if(data[i].qqType==2){
+					qqType = "三问号";
+				}else if(data[i].qqType==3){
+					qqType = "绑机号";
+				}else{
+					qqType = "令牌号";
+				}
+				qqStatisStr += "<tr><td>" + qqType + "</td>" + "<td>"
+							+ data[i].allCount + "</td>" + "<td>"
+							+ data[i].storageCount + "</td>" + "<td>"
+							+ data[i].outStorageCount + "</td>" + "</tr>";
+				$("#qqStatis").html(qqStatisStr);
+				qqTypeArr[i] = qqType;
+				qqTypeArrVal[i] = data[i].storageCount;
+			}
+			
+			var echartsA = echarts.init(document.getElementById('tpl-echarts-A'));
+
+			option = {
+			    color: ['#3398DB'],
+			    tooltip : {
+			        trigger: 'axis',
+			        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+			            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+			        }
+			    },
+			    grid: {
+			        left: '3%',
+			        right: '4%',
+			        bottom: '3%',
+			        containLabel: true
+			    },
+			    xAxis : [
+			        {
+			            type : 'category',
+			            data : qqTypeArr,
+			            axisTick: {
+			                alignWithLabel: true
+			            }
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'库存数',
+			            type:'bar',
+			            barWidth: '60%',
+			            data:qqTypeArrVal
+			        }
+			    ]
+			};
+			
+			echartsA.setOption(option);
+
+		});
 
     }
 	

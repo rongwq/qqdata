@@ -1,5 +1,7 @@
 package com.rong.system.service;
 
+import java.util.List;
+
 import com.jfinal.plugin.activerecord.Record;
 
 /**
@@ -9,5 +11,10 @@ import com.jfinal.plugin.activerecord.Record;
  */
 public interface IndexService {
 	Record getIndexUserValue();
+	/**
+	 * qq类型统计
+	 * @return
+	 */
+	List<Record> qqTypeStatis();
 }
 
