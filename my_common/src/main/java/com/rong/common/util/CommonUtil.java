@@ -81,4 +81,38 @@ public class CommonUtil {
 		}
 		return sb.toString();
 	}
+	
+	/**
+	 * 校验入库qq格式
+	 * 
+	 * @param qqType
+	 * @param qqData
+	 * 格式如下：
+	 * 白号 2383088706----xzzqt11480 
+	 * 三问号 2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox 
+	 * 绑机号 2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox----15243834134 
+	 * 令牌号 2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox----15243834134----token
+	 * @return
+	 */
+	public static boolean validQqData(String qqData) {
+		String qqDataStrs[] = qqData.split("\n");
+		for (int i = 0; i < qqDataStrs.length; i++) {
+			String vals[] = qqDataStrs[i].split("----");
+			if (!(vals.length ==2 || vals.length==8 || vals.length==9 || vals.length==10)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static boolean validQqData4Api(String qqData) {
+		String qqDataStrs[] = qqData.split(";");
+		for (int i = 0; i < qqDataStrs.length; i++) {
+			String vals[] = qqDataStrs[i].split("-");
+			if (!(vals.length ==2 || vals.length==8 || vals.length==9 || vals.length==10)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

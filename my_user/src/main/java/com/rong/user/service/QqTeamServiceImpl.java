@@ -30,7 +30,7 @@ public class QqTeamServiceImpl extends BaseServiceImpl<QqTeam> implements QqTeam
 	@Override
 	public QqTeam find(String name) {
 		Map<String, Object> paraMap = new HashMap<>();
-		paraMap.put("name", name);
+		paraMap.put("team_name", name);
 		return dao.findFirst(paraMap, "", false);
 	}
 

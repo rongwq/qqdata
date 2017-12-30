@@ -95,4 +95,132 @@ public class QqDataServiceImpl extends BaseServiceImpl<QqData> implements QqData
 		dao.update(qqData);
 		return true;
 	}
+	
+	/**
+	 * 保存qqData
+	 * @param qq
+	 * @param qqPwd
+	 * @param qqType
+	 * @param tags
+	 * @param teamId
+	 * @param teamName
+	 * @return
+	 */
+	public boolean saveQqData(String qq,String qqPwd,int qqType,String tags,long teamId,String teamName){
+		Date now = new Date();
+		QqData model = new QqData();
+		model.setQq(qq);
+		model.setQqPwd(qqPwd);
+		model.setInStorageTime(now);
+		model.setCreateTime(now);
+		model.setLoginCount(0);
+		model.setQqType(qqType);
+		model.setState(true);
+		model.setTags(tags);
+		model.setTeamId(teamId);
+		model.setTeamName(teamName);
+		return model.save();
+	}
+	
+	/**
+	 * 保存QqDataBase
+	 * @param qqType
+	 * @param vals
+	 * @return
+	 */
+	public boolean saveQqDataBase(int qqType,String vals []){
+		QqDataBase qqDataBase = null;
+		String qq = vals[0];
+		String qqPwd = vals[1];
+		String question1,question1_answer,question2,question2_answer,question3,question3_answer,mobile,tokenCode;
+		switch (qqType) {
+		case 1:// 白号
+			qqDataBase = new QqDataBase(qq, qqPwd);
+			break;
+		case 2:// 三问号
+			question1 = vals[2];
+			question1_answer = vals[3];
+			question2 = vals[4];
+			question2_answer = vals[5];
+			question3 = vals[6];
+			question3_answer = vals[7];
+			qqDataBase = new QqDataBase(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer);
+			break;
+		case 3:// 绑机号
+			question1 = vals[2];
+			question1_answer = vals[3];
+			question2 = vals[4];
+			question2_answer = vals[5];
+			question3 = vals[6];
+			question3_answer = vals[7];
+			mobile = vals[8];
+			qqDataBase = new QqDataBase(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile);
+			break;
+		case 4:// 令牌号
+			question1 = vals[2];
+			question1_answer = vals[3];
+			question2 = vals[4];
+			question2_answer = vals[5];
+			question3 = vals[6];
+			question3_answer = vals[7];
+			mobile = vals[8];
+			tokenCode = vals[9];
+			qqDataBase = new QqDataBase(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile,tokenCode);
+			break;
+		default:
+			return false;
+		}
+		return qqDataBase.save();
+	}
+	
+	/**
+	 * 保存QqDataBaseHistory
+	 * @param qqType
+	 * @param vals
+	 * @return
+	 */
+	public boolean saveQqDataBaseHistory(int qqType,String vals []){
+		String qq = vals[0];
+		String qqPwd = vals[1];
+		String question1,question1_answer,question2,question2_answer,question3,question3_answer,mobile,tokenCode;
+		QqDataBaseHistory qqDataBaseHistory = null;
+		switch (qqType) {
+		case 1:// 白号
+			qqDataBaseHistory = new QqDataBaseHistory(qq, qqPwd);
+			break;
+		case 2:// 三问号
+			question1 = vals[2];
+			question1_answer = vals[3];
+			question2 = vals[4];
+			question2_answer = vals[5];
+			question3 = vals[6];
+			question3_answer = vals[7];
+			qqDataBaseHistory = new QqDataBaseHistory(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer);
+			break;
+		case 3:// 绑机号
+			question1 = vals[2];
+			question1_answer = vals[3];
+			question2 = vals[4];
+			question2_answer = vals[5];
+			question3 = vals[6];
+			question3_answer = vals[7];
+			mobile = vals[8];
+			qqDataBaseHistory = new QqDataBaseHistory(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile);
+			break;
+		case 4:// 令牌号
+			question1 = vals[2];
+			question1_answer = vals[3];
+			question2 = vals[4];
+			question2_answer = vals[5];
+			question3 = vals[6];
+			question3_answer = vals[7];
+			mobile = vals[8];
+			tokenCode = vals[9];
+			qqDataBaseHistory = new QqDataBaseHistory(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile,tokenCode);
+			break;
+		default:
+			return false;
+		}
+		return qqDataBaseHistory.save();
+	}
 }

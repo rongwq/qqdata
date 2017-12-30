@@ -17,4 +17,14 @@ public class QqUpdatePwdWaitServiceImpl extends BaseServiceImpl<QqUpdatePwdWait>
 	public Page<QqUpdatePwdWait> list(int pageNumber, int pageSize) {
 		return dao.page(pageNumber, pageSize, null);
 	}
+	
+	@Override
+	public QqUpdatePwdWait findByQq(String qq) {
+		return dao.findByQq(qq);
+	}
+
+	@Override
+	public QqUpdatePwdWait getFisrt() {
+		return dao.getFisrt();
+	}
 }

@@ -14,5 +14,8 @@ public interface QqDataService extends BaseService<QqData>{
 	Page<QqData> list(int pageNumber,int pageSize,Kv param);
 	QqData findByQq(String qq);
 	boolean updatePwd(QqData qqData,String vals []);
+	boolean saveQqData(String qq,String qqPwd,int qqType,String tags,long teamId,String teamName);
+	boolean saveQqDataBase(int qqType,String vals []);
+	boolean saveQqDataBaseHistory(int qqType,String vals []);
 }
 

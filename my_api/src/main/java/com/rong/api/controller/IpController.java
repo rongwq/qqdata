@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.jfinal.core.Controller;
+import com.jfinal.log.Log;
 import com.rong.common.bean.BaseRenderJson;
 import com.rong.common.bean.MyErrorCodeConfig;
 import com.rong.common.validator.CommonValidatorUtils;
@@ -17,9 +18,10 @@ import com.rong.user.service.IpTempServiceImpl;
  * @date 2017年12月29日
  */
 public class IpController extends Controller{
-	IpTempService ipTempService = new IpTempServiceImpl();
+	private final Log logger = Log.getLog(this.getClass());
+	private IpTempService ipTempService = new IpTempServiceImpl();
 	/**
-	 * 获取js加密参数
+	 * 新增IP
 	 */
 	public void save(){
 		String ip = getPara("ip");
@@ -36,6 +38,7 @@ public class IpController extends Controller{
 			return;
 		}
 		ipTempService.save(ip, address);
+		logger.info("[api]新增IP成功："+ip+",归属地："+address);
 		BaseRenderJson.apiReturnJson(this, MyErrorCodeConfig.REQUEST_SUCCESS, "保存成功");
 	}
 }

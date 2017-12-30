@@ -87,6 +87,11 @@ public class QqDataDao extends BaseDao<QqData> {
 		if (qqLength != null && qqLength > 0) {
 			where.append(" and length(qq) = " + qqLength);
 		}
+		// 当天未登录qq 
+		Boolean notLoginToday = param.getBoolean("notLoginToday");
+		if (notLoginToday!=null && notLoginToday) {
+			where.append(" and (to_days(login_time) != to_days(now()) or login_time is null)");
+		}
 		String orderBy = " order by create_time desc";
 		sqlExceptSelect = sqlExceptSelect + where + orderBy;
 		return dao.paginate(pageNumber, pageSize, select, sqlExceptSelect);

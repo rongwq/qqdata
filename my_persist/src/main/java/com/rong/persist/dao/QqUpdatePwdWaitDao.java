@@ -24,4 +24,14 @@ public class QqUpdatePwdWaitDao extends BaseDao<QqUpdatePwdWait> {
 		sqlExceptSelect = sqlExceptSelect + where + orderBy;
 		return dao.paginate(pageNumber, pageSize, select, sqlExceptSelect);
 	}
+	
+	public QqUpdatePwdWait findByQq(String qq){
+		String sql = "select " + FILEDS + " from " + QqUpdatePwdWait.TABLE + " where qq = ?";
+		return dao.findFirst(sql, qq);
+	}
+	
+	public QqUpdatePwdWait getFisrt(){
+		String sql = "select " + FILEDS + " from " + QqUpdatePwdWait.TABLE + " order by create_time asc limit 1";
+		return dao.findFirst(sql);
+	}
 }

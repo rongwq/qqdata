@@ -14,6 +14,7 @@ import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
 import com.rong.api.controller.IpController;
 import com.rong.api.controller.JsRsaController;
+import com.rong.api.controller.QqController;
 import com.rong.common.bean.MyConst;
 import com.rong.persist.model._MappingKit;
 
@@ -64,6 +65,7 @@ public class MyConfig extends JFinalConfig {
 	public void configRoute(Routes me) {
 		me.add("/api/jsrsa", JsRsaController.class);
 		me.add("/api/ip", IpController.class);
+		me.add("/api/qq", QqController.class);
 
 	}
 
