@@ -24,7 +24,7 @@ public class ReportQqDao extends BaseDao<ReportQq> {
 		// 日期查询
 		String time = param.getStr("time");
 		if (!StringUtils.isNullOrEmpty(time)) {
-			where.append(" and to_days(create_time) = to_days("+time+")");
+			where.append(" and to_days(create_time) = to_days('"+time+"')");
 		}else {
 			where.append(" and to_days(create_time) = to_days(now())");
 		}

@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DateTimeUtil {
+	public static final String DEFAULT_FORMAT_DAY = "yyyy-MM-dd";
+	public static final String DEFAULT_FORMAT_HOUR = "yyyy-MM-dd HH:mm";
 	public static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String MILLISECOND_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 	

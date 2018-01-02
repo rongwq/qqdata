@@ -1,53 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false" %>
   <%@ include file="/views/common/meta.jsp"%>
- <script src="<%=basePath %>/assets/js/common.js"></script>
   
-<script>
-$(function() {
-    $("#queryForm").submit(function() {
-        $(this).ajaxSubmit({
-            data:$('#queryForm').formSerialize(),
-            success:function(data) {
-                $(".admin-content").html(data);
-            }
-        });
-        return false;
-    });
-});
-
-function doMyQuery() {
-    var startD= $("#datetimeStart").val();
-    var lastD= $("#datetimeEnd").val();
-    if(startD != ""){
-        if(lastD == ""){
-            alert("温馨提示：请选择时间进行查询！")  
-            return false;
-        }       
-    }
-    doQuery();
-}
-
-//日期时间选择器（开始、结束）
-$("#datetimeStart").datetimepicker({
-    language: 'zh-CN', 
-    format: "yyyy-mm-dd hh:ii",
-    autoclose: true,
-    maxView: "decade",
-    todayBtn: true,
-    pickerPosition: "bottom-left"
-})
-</script>
 <div class="tpl-portlet-components">
-    <form class="am-form am-form-horizontal form-border" id="queryForm" role="form" action="<%=basePath %>/user/getUserList">
+    <form class="am-form am-form-horizontal form-border" id="queryForm" role="form" action="<%=basePath %>/report/qqStatis">
         <input type="hidden" id="page" name="page" value="${page.pageNumber}">
         <div class="am-g tpl-amazeui-form">
-	        <div class="am-u-lg-2  am-g-collapse">
-	             <input type="text" class="am-form-field" placeholder="开始时间" name="time" value="${time}" id="datetimeStart">
-	        </div>
-	        <div class="am-u-lg-2 am-u-end">
-	            <button class="am-btn am-btn-secondary am-radius" type="button" onclick="doMyQuery();"> 搜索</button>
-	        </div>
+            <div class="am-u-lg-2  am-g-collapse">
+                 <input type="text" class="am-form-field" placeholder="开始时间" name="time" value="${time}" id="datetimeStart">
+            </div>
+            <div class="am-u-lg-2 am-u-end">
+                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="doMyQuery();"> 搜索</button>
+            </div>
         </div>  
     </form> 
     <div class="tpl-block">
@@ -107,4 +71,30 @@ $("#datetimeStart").datetimepicker({
     </div>
 </div>
 
-<script src="<%=basePath %>/js/user.js"></script>
+
+
+<script>
+$(function() {
+    initQueryForm();
+    initPage();
+});
+
+function doMyQuery() {
+    var startD= $("#datetimeStart").val();
+    if(!startD){
+        alert("温馨提示：请选择时间进行查询！")  
+        return false;
+    }
+    doQuery();
+}
+
+//日期时间选择器（开始、结束）
+$("#datetimeStart").datepicker({
+    language: 'zh-CN', 
+    format: "yyyy-mm-dd",
+    autoclose: true,
+    maxView: "decade",
+    todayBtn: true,
+    pickerPosition: "bottom-left"
+})
+</script>
