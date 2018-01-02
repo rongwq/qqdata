@@ -31,9 +31,9 @@
 								<td>
 									<div class="am-btn-toolbar">
 										<div class="am-btn-group am-btn-group-xs">
-											<button type="button" onclick="toUpdate( ${item.id })"
+											<button type="button" name="updateBtn" data-id="${item.id}" data-name="${item.teamName}"
 												class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">修改编组名称</button>
-											<button type="button" onclick="deleteTeam(${item.id })"
+											<button type="button" name="delBtn" data-id="${item.id}" 
 												class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">删除</button>
 										</div>
 									</div>
@@ -52,6 +52,18 @@
 				</div>
 				<hr>
 
+                <div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+                    <div class="am-modal-dialog">
+                        <div class="am-modal-hd">修改编组名称</div>
+                             <div class="am-modal-bd">
+                            <input type="text" id="teamName" class="am-modal-prompt-input" required="required">
+                             </div>
+                        <div class="am-modal-footer">
+                            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                            <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+                        </div>
+                    </div>
+                </div>
 
 				<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
 					<div class="am-modal-dialog">

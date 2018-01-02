@@ -193,7 +193,7 @@
 										<div class="am-btn-group am-btn-group-xs">
 											<button type="button" onclick="history( ${item.qq })"
 												class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">查看</button>
-											<button type="button" onclick="deleteQq(${item.id })"
+											<button type="button" name="delBtn" data-id="${item.id }"
 												class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">删除</button>
 										</div>
 									</div>
