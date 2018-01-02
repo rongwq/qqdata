@@ -1,0 +1,6 @@
+jdbcUrl = jdbc:mysql://127.0.0.1:3306/rong?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+log.jdbcUrl = jdbc:mysql://127.0.0.1:3306/log?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+user=rongwq
+password=wenqiang2018
+devMode = false
+ 
