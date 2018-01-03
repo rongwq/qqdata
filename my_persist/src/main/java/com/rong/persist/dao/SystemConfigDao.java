@@ -27,7 +27,7 @@ public class SystemConfigDao  extends BaseDao<SystemConfig>{
 		if(!StringUtils.isNullOrEmpty(value)){
 			sqlWhere.append(" and value like '%"+value+"%'");
 		}
-		String sqlExceptSelect = "from "+SystemConfig.TABLE+sqlWhere.toString() +" order by createTime desc";
+		String sqlExceptSelect = "from "+SystemConfig.TABLE+sqlWhere.toString() +" order by create_time desc";
 		return dao.paginate(pageNo, pageSize, sqlSelect, sqlExceptSelect);
 	}
 	
@@ -37,7 +37,7 @@ public class SystemConfigDao  extends BaseDao<SystemConfig>{
 	}
 	
 	public List<SystemConfig> getAppConf() {
-		String sql = "select * from "+SystemConfig.TABLE+" where type='app' order by createTime desc";
+		String sql = "select * from "+SystemConfig.TABLE+" where type='app' order by create_time desc";
 		return dao.find(sql);
 	}
 	

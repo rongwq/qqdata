@@ -8,7 +8,7 @@
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="loadRight('<%=basePath %>/views/qq/addQqUpdatePwdWait.jsp','新增等待修改密码QQ')">新增等待修改密码QQ</button>
             </div>
         </div>
-		<input type="hidden" id="page" name="pageNumber" value="${page.pageNumber}">
+		<input type="hidden" id="page" name="page" value="${page.pageNumber}">
 	</form>
 	<div class="tpl-block">
 		<div class="am-g">

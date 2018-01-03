@@ -4,17 +4,17 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import com.jfinal.aop.Before;
 import com.jfinal.kit.Kv;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.rong.common.bean.BaseRenderJson;
 import com.rong.common.bean.MyErrorCodeConfig;
 import com.rong.common.util.CommonUtil;
-import com.rong.common.util.DateTimeUtil;
 import com.rong.common.util.TxtExportUtil;
 import com.rong.common.util.ZipUtil;
-import com.rong.persist.enums.QqDataTypeEnum;
 import com.rong.persist.model.QqData;
 import com.rong.persist.model.QqDataBaseHistory;
 import com.rong.persist.model.QqUpdatePwdWait;
@@ -44,15 +44,16 @@ public class QqDataController extends BaseController {
 	 * QQ列表
 	 */
 	public void list() {
-		Page<QqData> list = pageList(pageSize);
+		Page<QqData> list = pageList();
 		keepPara();
 		setAttr("page", list);
 		setAttr("nowDate", new Date());
 		render("/views/qq/list.jsp");
 	}
 
-	private Page<QqData> pageList(int pagaSize) {
+	private Page<QqData> pageList() {
 		int pageNumber = getParaToInt("page", 1);
+		int pageSize = getParaToInt("pageSize", 10);
 		String qq = getPara("qq");
 		Integer qqType = getParaToInt("qqType");
 		Integer state = getParaToInt("state");
@@ -72,7 +73,7 @@ public class QqDataController extends BaseController {
 				.set("qAgeMin", qAgeMin)
 				.set("qAgeMax", qAgeMax)
 				.set("qqLength", qqLength);
-		Page<QqData> list = qqDataService.list(pageNumber, pagaSize, param);
+		Page<QqData> list = qqDataService.list(pageNumber, pageSize, param);
 		return list;
 	}
 	
@@ -80,29 +81,14 @@ public class QqDataController extends BaseController {
 	 * 导出QQ列表
 	 */
 	public void exportTxt() {
-		List<QqData> list = pageList(pageSize).getList();
+		List<QqData> list = pageList().getList();
 		StringBuffer write = new StringBuffer();
-		String tab = "  ";
+		String tab = "----";
 		String enter = "\r\n";
-		write.append("编号" + tab).append("QQ" + tab).append("PWD" + tab).append("所属分类" + tab).append("编组" + tab);
-		write.append("标签" + tab).append("入库时间" + tab).append("Q龄" + tab).append("登录次数" + tab).append("仓库状态" + tab);
-		write.append("使用状态" + tab).append("出库时间" + tab).append("剩余天数" + tab);
+		write.append("QQ" + tab).append("PWD" + tab);
 		write.append(enter);
 		for (QqData qqData : list) {
-			write.append(qqData.getId() + tab).append(qqData.getQq() + tab).append(qqData.getQqPwd() + tab)
-			.append(QqDataTypeEnum.getName(qqData.getQqType()) + tab).append(qqData.getTeamName() + tab);
-			
-			Date outStorageTime = qqData.getOutStorageTime();
-			write.append(qqData.getTags() + tab).append(DateTimeUtil.formatDateTime(qqData.getInStorageTime(),"yyyy-MM-dd HH:mm")+ tab).append(qqData.getQqAge() + tab)
-			.append(qqData.getLoginCount() + tab).append((outStorageTime==null?"未出库":"出库") + tab);
-			
-			String haveDaysStr = "-";
-			if(outStorageTime!=null){
-				int haveDays = DateTimeUtil.getBetweenDay(outStorageTime, new Date());
-				haveDaysStr = String.valueOf(qqData.getOutStorageDays() - haveDays);
-			}
-			write.append((qqData.getState()?"可用":"已冻结") + tab).append(outStorageTime==null?"-":DateTimeUtil.formatDateTime(outStorageTime,"yyyy-MM-dd HH:mm") + tab).append(haveDaysStr + tab);
-			
+			write.append(qqData.getQq() + tab).append(qqData.getQqPwd() + tab);
 			write.append(enter);
 		}
 		String webPath = PathKit.getWebRootPath();
@@ -133,6 +119,7 @@ public class QqDataController extends BaseController {
 	/**
 	 * 新增QQ
 	 */
+	@Before(Tx.class)
 	public void add() {
 		String qqData = getPara("qqData");
 		String teamName = getPara("teamName");
@@ -164,11 +151,7 @@ public class QqDataController extends BaseController {
 				qqType = 1;
 			}
 			// 1.保存qqData
-			qqDataService.saveQqData(qq, qqPwd, qqType, tags, teamId, teamName);
-			// 2.保存qqDataBase
-			qqDataService.saveQqDataBase(qqType, vals);
-			// 3.保存qqDataBaseHistory
-			qqDataService.saveQqDataBaseHistory(qqType, vals);
+			qqDataService.saveQqData(vals,qq, qqPwd, qqType, tags, teamId, teamName);
 		}
 		BaseRenderJson.returnAddObj(this, true);
 		logger.info("[操作日志]入库成功");
@@ -177,6 +160,7 @@ public class QqDataController extends BaseController {
 	/**
 	 * 修改QQ密码
 	 */
+	@Before(Tx.class)
 	public void updatePwd() {
 		String qqData = getPara("qqData");
 		// 校验qqData格式是否正确
@@ -201,6 +185,7 @@ public class QqDataController extends BaseController {
 	/**
 	 * 修改QQ标签
 	 */
+	@Before(Tx.class)
 	public void updateTag() {
 		String qqData = getPara("qqData");
 		String tags = getPara("tags");
@@ -208,16 +193,17 @@ public class QqDataController extends BaseController {
 		for (int i = 0; i < qqDataStrs.length; i++) {
 			String qq = qqDataStrs[i];
 			QqData qqDataModel = qqDataService.findByQq(qq);
-			qqDataModel.setTags(tags + "、"+ (qqDataModel.getTags()==null?"":qqDataModel.getTags()));
+			qqDataModel.setTags(tags);
 			qqDataModel.update();
 		}
 		BaseRenderJson.returnUpdateObj(this, true);
-		logger.info("[操作日志]更新标签成功："+qqData+"，新增标签："+tags);
+		logger.info("[操作日志]更新标签成功："+qqData+"，标签："+tags);
 	}
 	
 	/**
 	 * 出库
 	 */
+	@Before(Tx.class)
 	public void outStorage() {
 		String qqData [] = getParaValues("qq");
 		String tags = getPara("tags");
@@ -237,6 +223,7 @@ public class QqDataController extends BaseController {
 	/**
 	 * 新增待修改密码的QQ
 	 */
+	@Before(Tx.class)
 	public void addUpdatePwdWait() {
 		String qqData = getPara("qqData");
 		String qqDataStrs[] = qqData.split("\n");
@@ -256,6 +243,7 @@ public class QqDataController extends BaseController {
 	/**
 	 * 待修改密码的QQ列表
 	 */
+	@Before(Tx.class)
 	public void qqUpdatePwdWaitList() {
 		int pageNumber = getParaToInt("page", 1);
 		Page<QqUpdatePwdWait> list = qqUpdatePwdWaitService.list(pageNumber, pageSize);
@@ -268,6 +256,7 @@ public class QqDataController extends BaseController {
 	/**
 	 * 删除待修改密码的QQ
 	 */
+	@Before(Tx.class)
 	public void deleteUpdatePwdWait() {
 		Long id = getParaToLong("id");
 		if (qqUpdatePwdWaitService.deleteById(id)) {
@@ -282,6 +271,7 @@ public class QqDataController extends BaseController {
 	/**
 	 * 删除
 	 */
+	@Before(Tx.class)
 	public void delete() {
 		Long id = getParaToLong("id");
 		if (qqDataService.deleteById(id)) {

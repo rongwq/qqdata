@@ -13,7 +13,7 @@
             </div>
         </div>
 	
-		<input type="hidden" id="page" name="pageNumber" value="${page.pageNumber}">
+		<input type="hidden" id="page" name="page" value="${page.pageNumber}">
 		<div class="am-g tpl-amazeui-form">
 			<div class="am-u-lg-3">
 				<label for="qq" class="am-u-sm-4 am-form-label">QQ：</label>
@@ -95,6 +95,13 @@
              </div> 
         </div>
         <div class="am-g tpl-amazeui-form">
+            <div class="am-u-lg-3"> 
+                  <label for="pageSize" class="am-u-sm-4 am-form-label">每页数量：</label>
+                  <div class="am-input-group">
+                       <input type="text" class="am-form-field" name="pageSize" value="${pageSize}" placeholder="每页数量">
+                  </div>
+             </div> 
+        
             <div class="am-u-lg-3 am-u-end">
                 <label for="qqLength" class="am-u-sm-4 am-form-label">QQ长度：</label>
                 <div class="am-input-group am-u-sm-8"> 

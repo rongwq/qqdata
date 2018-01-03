@@ -97,7 +97,7 @@ public class QqDataServiceImpl extends BaseServiceImpl<QqData> implements QqData
 	}
 	
 	/**
-	 * 保存qqData
+	 * 保存qqData，再次保存QqDataBase，保存saveQqDataBaseHistory
 	 * @param qq
 	 * @param qqPwd
 	 * @param qqType
@@ -106,7 +106,7 @@ public class QqDataServiceImpl extends BaseServiceImpl<QqData> implements QqData
 	 * @param teamName
 	 * @return
 	 */
-	public boolean saveQqData(String qq,String qqPwd,int qqType,String tags,long teamId,String teamName){
+	public boolean saveQqData(String vals [],String qq,String qqPwd,int qqType,String tags,long teamId,String teamName){
 		Date now = new Date();
 		QqData model = new QqData();
 		model.setQq(qq);
@@ -119,7 +119,10 @@ public class QqDataServiceImpl extends BaseServiceImpl<QqData> implements QqData
 		model.setTags(tags);
 		model.setTeamId(teamId);
 		model.setTeamName(teamName);
-		return model.save();
+		model.save();
+		saveQqDataBase(qqType, vals);
+		saveQqDataBaseHistory(qqType, vals);
+		return true;
 	}
 	
 	/**

@@ -3,7 +3,7 @@
 
 <div class="tpl-portlet-components">
 	<form class="am-form am-form-horizontal" id="queryForm" role="form" action="<%=basePath %>/ip/list">
-		<input type="hidden" id="page" name="pageNumber" value="${page.pageNumber}">
+		<input type="hidden" id="page" name="page" value="${page.pageNumber}">
 		<div class="am-g tpl-amazeui-form">
             <div class="am-u-lg-6 am-u-end">
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="clean()">一键清空</button>

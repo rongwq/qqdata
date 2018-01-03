@@ -61,6 +61,9 @@ public class SystemConfigController extends BaseController{
 			setModel(key,value,remark,model);
 			model.setType(type);
 			if (model.update()) {
+				if(key.equals("page.size")){
+					BaseController.pageSize = Integer.parseInt(value);
+				}
 				BaseRenderJson.returnUpdateObj(this, true);
 				logger.info("[操作日志]"+getUser().getUserName()+ "修改配置成功：" + model.getValue());
 			} else {

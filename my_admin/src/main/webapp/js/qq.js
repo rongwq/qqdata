@@ -90,8 +90,7 @@ function getCheckQqAndPwd(){
  * @returns qq
  */
 function getCheckQq(){
-	getCheckQqByTag("\n");
-	return allCheckQq;
+	return getCheckQqByTag("\n");
 }
 
 /**

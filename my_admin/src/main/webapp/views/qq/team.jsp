@@ -3,7 +3,7 @@
 
 <div class="tpl-portlet-components">
 	<form class="am-form am-form-horizontal" id="queryForm" role="form" action="<%=basePath %>/qqTeam/list">
-		<input type="hidden" id="page" name="pageNumber" value="${page.pageNumber}">
+		<input type="hidden" id="page" name="page" value="${page.pageNumber}">
 	</form>
 	<div class="tpl-block">
 		<div class="am-g">

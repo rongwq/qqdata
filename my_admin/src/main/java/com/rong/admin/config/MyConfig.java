@@ -19,6 +19,7 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
 import com.rong.admin.controller.AdminController;
+import com.rong.admin.controller.BaseController;
 import com.rong.admin.controller.IndexController;
 import com.rong.admin.controller.IpTempController;
 import com.rong.admin.controller.LogController;
@@ -29,6 +30,8 @@ import com.rong.admin.controller.ResourceController;
 import com.rong.admin.controller.RoleController;
 import com.rong.admin.controller.SystemConfigController;
 import com.rong.common.bean.MyConst;
+import com.rong.persist.dao.SystemConfigDao;
+import com.rong.persist.model.SystemConfig;
 import com.rong.persist.model._MappingKit;
 
 /**
@@ -164,8 +167,14 @@ public class MyConfig extends JFinalConfig {
 
 	@Override
 	public void afterJFinalStart() {
+		//BeanUtil类型转换处理
 		ConvertUtils.register(new DateConverter(null), java.util.Date.class); 
 		ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
+		//分页参数配置,默认10
+		SystemConfig config = new SystemConfigDao().getByKey("page.size");
+		if(config!=null){
+			BaseController.pageSize = Integer.parseInt(config.getValue());
+		}
 		logger.info("admin 启动成功");
 		super.afterJFinalStart();
 	}

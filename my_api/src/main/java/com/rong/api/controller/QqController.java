@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.Kv;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.rong.common.bean.BaseRenderJson;
 import com.rong.common.bean.MyErrorCodeConfig;
 import com.rong.common.util.CommonUtil;
@@ -44,6 +46,7 @@ public class QqController extends Controller{
 	/**
 	 * 贴标签-支持批量操作，格式：{'qqs':'qq1;qq2;qq3','tags':'tag1、tag2'}
 	 */
+	@Before(Tx.class)
 	public void updateTags(){
 		String qqs = getPara("qqs");
 		String tags = getPara("tags");
@@ -69,6 +72,7 @@ public class QqController extends Controller{
 	/**
 	 * 新增QQ
 	 */
+	@Before(Tx.class)
 	public void add() {
 		String qqs = getPara("qqs");
 		String costPrice = getPara("costPrice","1");
@@ -102,11 +106,7 @@ public class QqController extends Controller{
 			// 1.保存qqData
 			QqData qqData = qqDataService.findByQq(qq);
 			if(qqData==null){
-				qqDataService.saveQqData(qq, qqPwd, qqType, null, teamId, teamName);
-				// 2.保存qqDataBase
-				qqDataService.saveQqDataBase(qqType, vals);
-				// 3.保存qqDataBaseHistory
-				qqDataService.saveQqDataBaseHistory(qqType, vals);
+				qqDataService.saveQqData(vals,qq, qqPwd, qqType, null, teamId, teamName);
 			}
 		}
 		BaseRenderJson.apiReturnJson(this, MyErrorCodeConfig.REQUEST_SUCCESS, "qq入库成功");
@@ -116,6 +116,7 @@ public class QqController extends Controller{
 	/**
 	 * 修改QQ密码
 	 */
+	@Before(Tx.class)
 	public void updatePwd() {
 		String qq = getPara("qq");
 		String pwd = getPara("pwd");
@@ -160,6 +161,7 @@ public class QqController extends Controller{
 	 * 成功，修改QQ状态,登录次数和token
 	 * 冻结，则把类型是令牌号的QQ自动提交等待修改密码表
 	 */
+	@Before(Tx.class)
 	public void qqLogin() {
 		String qq = getPara("qq");
 		Boolean state = getParaToBoolean("state");//1-可用，0已冻结

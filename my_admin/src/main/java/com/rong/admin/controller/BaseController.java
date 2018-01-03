@@ -23,7 +23,7 @@ import com.rong.common.exception.ParamNotFound;
 import com.rong.persist.model.SystemAdmin;
 
 public class BaseController extends Controller {
-	public static final int pageSize = 10;
+	public static int pageSize = 10;
 	public Field serviceField = null;
 	
 	public Field getService() {
