@@ -82,6 +82,7 @@ public class MyConfig extends JFinalConfig {
 		me.setError500View("/views/common/500.jsp");
 		me.setErrorView(401, "/views/login.jsp");
 		me.setErrorView(403, "/views/login.jsp");
+		me.setBaseDownloadPath("/");//文件下载路径
 		initConst();
 	}
 

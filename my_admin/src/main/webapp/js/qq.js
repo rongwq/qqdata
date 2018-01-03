@@ -122,12 +122,25 @@ function history(qq){
  * 导出txt
  */
 function exportTxt() {
-	$.ajax({
-		url : getRootPath() + "/qq/exportTxt",
-		data : $('#queryForm').formSerialize()
-	}).done(function(data) {
-		window.open(getRootPath()+"/qq导出数据.zip");
-	});
+	$('#my-popup-exportTxt').modal({
+        relatedTarget: this,
+        onConfirm: function(options) {
+        	var dataStr = $('#queryForm').formSerialize();
+        	var val=$('input:radio[name="exportType"]:checked').val();
+        	if(dataStr==""){
+        		dataStr += "?exportType="+val;
+        	}else{
+        		dataStr += "&exportType="+val;
+        	}
+        	console.log(dataStr);
+        	$.ajax({
+        		url : getRootPath() + "/qq/exportTxt",
+        		data : dataStr
+        	}).done(function(data) {
+        		window.open(getRootPath()+"/qq导出数据.txt");
+        	});
+        }
+      });
 }
 
 /**

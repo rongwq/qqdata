@@ -14,12 +14,15 @@ import com.rong.common.bean.BaseRenderJson;
 import com.rong.common.bean.MyErrorCodeConfig;
 import com.rong.common.util.CommonUtil;
 import com.rong.common.util.TxtExportUtil;
-import com.rong.common.util.ZipUtil;
+import com.rong.persist.enums.QqDataTypeEnum;
 import com.rong.persist.model.QqData;
+import com.rong.persist.model.QqDataBase;
 import com.rong.persist.model.QqDataBaseHistory;
 import com.rong.persist.model.QqUpdatePwdWait;
 import com.rong.user.service.QqDataBaseHistoryService;
 import com.rong.user.service.QqDataBaseHistoryServiceImpl;
+import com.rong.user.service.QqDataBaseService;
+import com.rong.user.service.QqDataBaseServiceImpl;
 import com.rong.user.service.QqDataService;
 import com.rong.user.service.QqDataServiceImpl;
 import com.rong.user.service.QqTeamService;
@@ -37,6 +40,7 @@ public class QqDataController extends BaseController {
 	private final Log logger = Log.getLog(this.getClass());
 	private QqDataService qqDataService = new QqDataServiceImpl();
 	private QqTeamService qqTeamService = new QqTeamServiceImpl();
+	private QqDataBaseService qqDataBaseService = new QqDataBaseServiceImpl();
 	private QqDataBaseHistoryService qqDataBaseHistoryService = new QqDataBaseHistoryServiceImpl();
 	private QqUpdatePwdWaitService qqUpdatePwdWaitService = new QqUpdatePwdWaitServiceImpl();
 
@@ -44,16 +48,16 @@ public class QqDataController extends BaseController {
 	 * QQ列表
 	 */
 	public void list() {
-		Page<QqData> list = pageList();
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<QqData> list = pageList(pageSize);
 		keepPara();
 		setAttr("page", list);
 		setAttr("nowDate", new Date());
 		render("/views/qq/list.jsp");
 	}
 
-	private Page<QqData> pageList() {
+	private Page<QqData> pageList(int pageSize) {
 		int pageNumber = getParaToInt("page", 1);
-		int pageSize = getParaToInt("pageSize", 10);
 		String qq = getPara("qq");
 		Integer qqType = getParaToInt("qqType");
 		Integer state = getParaToInt("state");
@@ -81,14 +85,34 @@ public class QqDataController extends BaseController {
 	 * 导出QQ列表
 	 */
 	public void exportTxt() {
-		List<QqData> list = pageList().getList();
+		Integer exportType = getParaToInt("exportType",QqDataTypeEnum.WHITE.getIndex());
+		List<QqData> list = pageList(9999).getList();
 		StringBuffer write = new StringBuffer();
 		String tab = "----";
 		String enter = "\r\n";
-		write.append("QQ" + tab).append("PWD" + tab);
-		write.append(enter);
 		for (QqData qqData : list) {
-			write.append(qqData.getQq() + tab).append(qqData.getQqPwd() + tab);
+			String qq = qqData.getQq();
+			write.append(qq + tab).append(qqData.getQqPwd());
+			if(exportType==QqDataTypeEnum.THREE_QUESTION.getIndex()){
+				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
+				setCommonVal(write, tab, qqDataBase);
+			}else if(exportType==QqDataTypeEnum.MOBILE.getIndex()){
+				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
+				write.append(tab);
+				write.append(qqDataBase.getQuestion1() + tab).append(qqDataBase.getQuestion1Answer() + tab);
+				write.append(qqDataBase.getQuestion2() + tab).append(qqDataBase.getQuestion2Answer() + tab);
+				write.append(qqDataBase.getQuestion3() + tab).append(qqDataBase.getQuestion3Answer() + tab);
+				write.append(qqDataBase.getMobile());
+			}else if(exportType==QqDataTypeEnum.TOKEN.getIndex()){
+				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
+				write.append(tab);
+				write.append(qqDataBase.getQuestion1() + tab).append(qqDataBase.getQuestion1Answer() + tab);
+				write.append(qqDataBase.getQuestion2() + tab).append(qqDataBase.getQuestion2Answer() + tab);
+				write.append(qqDataBase.getQuestion3() + tab).append(qqDataBase.getQuestion3Answer() + tab);
+				write.append(qqDataBase.getMobile() + tab).append(qqDataBase.getToken());
+			}else{
+				
+			}
 			write.append(enter);
 		}
 		String webPath = PathKit.getWebRootPath();
@@ -97,11 +121,17 @@ public class QqDataController extends BaseController {
 		try {
 			TxtExportUtil.createFile(file);
 			TxtExportUtil.writeTxtFile(write.toString(), file);
-			ZipUtil.zip(pathname, webPath, "qq导出数据.zip");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		renderFile(file);
+	}
+
+	private void setCommonVal(StringBuffer write, String tab, QqDataBase qqDataBase) {
+		write.append(tab);
+		write.append(qqDataBase.getQuestion1() + tab).append(qqDataBase.getQuestion1Answer() + tab);
+		write.append(qqDataBase.getQuestion2() + tab).append(qqDataBase.getQuestion2Answer() + tab);
+		write.append(qqDataBase.getQuestion3() + tab).append(qqDataBase.getQuestion3Answer());
 	}
 	
 	/**

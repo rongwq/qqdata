@@ -11,7 +11,7 @@ public class TxtExportUtil {
 		FileOutputStream o = null;
 		try {
 			o = new FileOutputStream(file);
-			o.write(content.getBytes("UTF-8"));
+			o.write(content.getBytes("GBK"));
 			o.close();
 			flag = true;
 		} catch (Exception e) {

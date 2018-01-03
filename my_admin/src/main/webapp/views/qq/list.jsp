@@ -231,6 +231,33 @@
 					</div>
 				</div>
 				
+				<!-- 导出TXT -->
+				<div class="am-modal am-modal-confirm" tabindex="-1" id="my-popup-exportTxt">
+                    <div class="am-modal-dialog">
+                        <div class="am-modal-hd">导出TXT：</div>
+                        <div class="am-modal-bd">
+                            <div class="am-form-group">
+                                        <label class="am-radio-inline">
+                                        <input type="radio"  value="1" checked="checked" name="exportType"> 白号
+                                      </label>
+                                      <label class="am-radio-inline">
+                                        <input type="radio"  value="2" name="exportType"> 密保号
+                                      </label>
+                                      <label class="am-radio-inline">
+                                        <input type="radio" value="3" name="exportType"> 绑机号
+                                      </label>
+                                      <label class="am-radio-inline">
+                                        <input type="radio" value="4" name="exportType"> 令牌号
+                                      </label>
+                                    </div>
+                        </div>
+                        <div class="am-modal-footer">
+                            <span class="am-modal-btn" data-am-modal-cancel>取消</span> <span
+                                class="am-modal-btn" data-am-modal-confirm>确定</span>
+                        </div>
+                    </div>
+                </div>
+				
 			</div>
 		</div>
 	</div>
