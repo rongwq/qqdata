@@ -109,7 +109,7 @@ public class QqDataController extends BaseController {
 				write.append(qqDataBase.getQuestion1() + tab).append(qqDataBase.getQuestion1Answer() + tab);
 				write.append(qqDataBase.getQuestion2() + tab).append(qqDataBase.getQuestion2Answer() + tab);
 				write.append(qqDataBase.getQuestion3() + tab).append(qqDataBase.getQuestion3Answer() + tab);
-				write.append(qqDataBase.getMobile() + tab).append(qqDataBase.getToken());
+				write.append(qqDataBase.getMobile() + tab).append(qqDataBase.getTokenCode());
 			}else{
 				
 			}
