@@ -134,10 +134,10 @@ public class QqDataDao extends BaseDao<QqData> {
 		"count(*) allCount,"+
 		"count(IF(q.state = 1, TRUE, NULL)) aliveCount,"+
 		"count(IF(q.state = 0, TRUE, NULL)) unaliveCount,"+
-		"count(IF(q.qq_type = 1, TRUE, NULL)) whiteCount,"+
-		"count(IF(q.qq_type = 2, TRUE, NULL)) threeCount,"+
-		"count(IF(q.qq_type = 3, TRUE, NULL)) mobileCount,"+
-		"count(IF(q.qq_type = 4, TRUE, NULL)) tokenCount,"+
+		"count(IF(q.qq_type = 1, TRUE, NULL)) qqCountType1,"+
+		"count(IF(q.qq_type = 2, TRUE, NULL)) qqCountType2,"+
+		"count(IF(q.qq_type = 3, TRUE, NULL)) qqCountType3,"+
+		"count(IF(q.qq_type = 4, TRUE, NULL)) qqCountType4,"+
 		"t.cost_price costPrice "+
 		"FROM qq_data q,qq_team t "+
 		"WHERE q.team_id = t.id AND ("+

@@ -1,7 +1,6 @@
 package com.rong.job.myjob;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -11,6 +10,7 @@ import org.quartz.JobExecutionException;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.rong.common.util.DateTimeUtil;
 import com.rong.persist.dao.QqDataDao;
 import com.rong.persist.model.ReportQq;
 
@@ -39,7 +39,7 @@ public class QqReportJob implements Job{
 				item.setQqCountType3(record.getInt("qqCountType3"));
 				item.setQqCountType4(record.getInt("qqCountType4"));
 				item.setQqState0(record.getInt("unaliveCount"));
-				item.setCreateTime(new Date());
+				item.setCreateTime(DateTimeUtil.parseDateTime(DateTimeUtil.lastSecondInYesterday(),DateTimeUtil.DEFAULT_FORMAT_HOUR));
 				reportQqList.add(item);
 			}
 			Db.batchSave(reportQqList, 100);
