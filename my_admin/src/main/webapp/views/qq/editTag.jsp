@@ -66,6 +66,10 @@
 <script>
   $(function() {
     $("#dataForm").submit(function() {
+    	var validSuccess = checkQqData($("#qqData").val());
+        if(!validSuccess){
+            return false;
+        }
 		$(this).ajaxSubmit({
 			method:"POST",
 			data:$('#dataForm').formSerialize(),
