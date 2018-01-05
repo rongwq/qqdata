@@ -232,23 +232,13 @@
 										<tr class="tpl-table-uppercase">
 											<th>号码分类</th>
 											<th>总数量</th>
+											<th> 9位</th>
+											<th>10位</th>
 											<th>库存</th>
 											<th>出仓量</th>
 										</tr>
 									</thead>
-									<tbody class="data-item" id="qqStatis">
-										<%-- <tr>
-											<td>
-											    <c:if test="${item.qqType == 1 }">白号</c:if>
-                                                <c:if test="${item.qqType == 2 }">三问号</c:if>
-                                                <c:if test="${item.qqType == 3 }">绑机号</c:if>
-                                                <c:if test="${item.qqType == 4 }">令牌号</c:if>
-											</td>
-											<td>${item.allCount }</td>
-											<td>${item.storageCount }</td>
-											<td>${item.outStorageCount }</td>
-										</tr> --%>
-									</tbody>
+									<tbody class="data-item" id="qqStatis"/>
 								</table>
 							</div>
 						</div>

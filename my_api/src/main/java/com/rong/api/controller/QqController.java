@@ -104,10 +104,7 @@ public class QqController extends Controller{
 				qqType = 1;
 			}
 			// 1.保存qqData
-			QqData qqData = qqDataService.findByQq(qq);
-			if(qqData==null){
-				qqDataService.saveQqData(vals,qq, qqPwd, qqType, null, teamId, teamName);
-			}
+			qqDataService.saveQqData(vals,qq, qqPwd, qqType, null, teamId, teamName);
 		}
 		BaseRenderJson.apiReturnJson(this, MyErrorCodeConfig.REQUEST_SUCCESS, "qq入库成功");
 		logger.info("[api]qq入库成功");

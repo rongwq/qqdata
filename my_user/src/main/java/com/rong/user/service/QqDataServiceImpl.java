@@ -119,7 +119,13 @@ public class QqDataServiceImpl extends BaseServiceImpl<QqData> implements QqData
 		model.setTags(tags);
 		model.setTeamId(teamId);
 		model.setTeamName(teamName);
-		model.save();
+		QqData item = findByQq(qq);
+		if(item==null){
+			model.save();
+		}else{
+			model.setId(item.getId());
+			model.update();
+		}
 		saveQqDataBase(qqType, vals);
 		saveQqDataBaseHistory(qqType, vals);
 		return true;

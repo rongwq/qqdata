@@ -113,12 +113,19 @@ public class QqDataDao extends BaseDao<QqData> {
 	}
 	
 	public List<Record> qqTypeStatis(){
-		String sql = "select qq_type qqType,count(*) allCount,count(if(state=1,true,null)) storageCount,count(if(out_storage_time is not null,true,null)) outStorageCount from qq_data group by qq_type";
+		String sql = "SELECT qq_type qqType,"
+				+ "count(*) allCount,"
+				+ "count(IF(state = 1, TRUE, NULL)) storageCount,"
+				+ "count(IF (out_storage_time IS NOT NULL,TRUE,NULL)) outStorageCount,"
+				+ "count(if(LENGTH(qq)=9,true,null)) qqlen9Count,"
+				+ "count(if(LENGTH(qq)=10,true,null)) qqlen10Count "
+				+ "FROM "
+				+ "qq_data GROUP BY qq_type";
 		return Db.find(sql);
 	}
 	
 	/**
-	 * 统计产量明细
+	 * 统计产量明细-定时器使用
 	 * 日期  编组 QQ数量 存活率 活号成本 白号   三问号  绑机号  令牌号 冻结号
 	 * @return
 	 */

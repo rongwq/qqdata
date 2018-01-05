@@ -24,7 +24,7 @@ public class CommonInterceptor implements Interceptor {
 			myIntercept(ai);
 		} catch (Exception e) {
 			e.printStackTrace();
-			BaseRenderJson.returnBaseTemplateObj(ai.getController(), MyErrorCodeConfig.REQUEST_FAIL, "系统异常");
+			BaseRenderJson.returnBaseTemplateObj(ai.getController(), MyErrorCodeConfig.REQUEST_FAIL, "系统异常！"+e);
 		}
 	}
 

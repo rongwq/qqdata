@@ -81,13 +81,16 @@ var pageData = {
 				}
 				qqStatisStr += "<tr><td>" + qqType + "</td>" + "<td>"
 							+ data[i].allCount + "</td>" + "<td>"
+							+ data[i].qqlen9Count + "</td>" + "<td>"
+							+ data[i].qqlen10Count + "</td>" + "<td>"
 							+ data[i].storageCount + "</td>" + "<td>"
 							+ data[i].outStorageCount + "</td>" + "</tr>";
-				$("#qqStatis").html(qqStatisStr);
 				qqTypeArr[i] = qqType;
 				qqTypeArrVal[i] = data[i].storageCount;
 			}
+			$("#qqStatis").html(qqStatisStr);
 			
+			//图表赋值展示
 			var echartsA = echarts.init(document.getElementById('tpl-echarts-A'));
 
 			option = {
