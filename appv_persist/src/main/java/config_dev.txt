@@ -1,4 +1,0 @@
-#此配置只做生成实体
-jdbcUrl = jdbc:mysql://172.18.7.64:3306/appv?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
-user=root
-password=123456
