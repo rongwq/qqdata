@@ -259,4 +259,19 @@ public class QqController extends Controller{
 		Page<Record> returnPage = new Page<>(returnList, list.getPageNumber(), list.getPageSize(), list.getTotalPage(), list.getTotalRow());
 		BaseRenderJson.returnObjectTmplate(this, MyErrorCodeConfig.REQUEST_SUCCESS, returnPage, "获取当天未登录QQ列表成功");
 	}
+	
+	/**
+	 * QQ列表，返回参数只包括qq号码
+	 */
+	public void qqList() {
+		int pageNumber = getParaToInt("page", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<QqData> list = qqDataService.list(pageNumber, pageSize, null);
+		List<String> returnList = new ArrayList<>();
+		for (QqData qqData : list.getList()) {
+			returnList.add(qqData.getQq());
+		}
+		Page<String> returnPage = new Page<>(returnList, list.getPageNumber(), list.getPageSize(), list.getTotalPage(), list.getTotalRow());
+		BaseRenderJson.returnObjectTmplate(this, MyErrorCodeConfig.REQUEST_SUCCESS, returnPage, "获取QQ列表成功");
+	}
 }

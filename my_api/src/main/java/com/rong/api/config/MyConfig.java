@@ -12,6 +12,7 @@ import com.jfinal.plugin.activerecord.tx.TxByActionKeys;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
 import com.jfinal.template.Engine;
+import com.rong.api.controller.GroupController;
 import com.rong.api.controller.IpController;
 import com.rong.api.controller.JsRsaController;
 import com.rong.api.controller.QqController;
@@ -66,6 +67,7 @@ public class MyConfig extends JFinalConfig {
 		me.add("/api/jsrsa", JsRsaController.class);
 		me.add("/api/ip", IpController.class);
 		me.add("/api/qq", QqController.class);
+		me.add("/api/group", GroupController.class);
 
 	}
 

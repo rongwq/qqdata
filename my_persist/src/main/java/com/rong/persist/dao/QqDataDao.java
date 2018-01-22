@@ -24,6 +24,11 @@ public class QqDataDao extends BaseDao<QqData> {
 	public Page<QqData> page(int pageNumber, int pageSize, Kv param) {
 		String select = "select " + FILEDS;
 		String sqlExceptSelect = "from " + QqData.TABLE;
+		if(param==null){
+			String orderBy = " order by create_time desc";
+			sqlExceptSelect = sqlExceptSelect + orderBy;
+			return dao.paginate(pageNumber, pageSize, select, sqlExceptSelect);
+		}
 		StringBuffer where = new StringBuffer(" where 1=1");
 		// qq
 		String qq = param.getStr("qq");

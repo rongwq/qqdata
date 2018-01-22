@@ -20,6 +20,7 @@ public class _MappingKit {
 		arp.addMapping("qq_data", "id", QqData.class);
 		arp.addMapping("qq_data_base", "id", QqDataBase.class);
 		arp.addMapping("qq_data_base_history", "id", QqDataBaseHistory.class);
+		arp.addMapping("qq_group", "id", QqGroup.class);
 		arp.addMapping("qq_team", "id", QqTeam.class);
 		arp.addMapping("qq_update_pwd_wait", "id", QqUpdatePwdWait.class);
 		arp.addMapping("report_qq", "id", ReportQq.class);
