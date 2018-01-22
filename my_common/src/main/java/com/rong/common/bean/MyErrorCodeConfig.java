@@ -14,16 +14,7 @@ public class MyErrorCodeConfig {
 	public static final String REQUEST_FAIL = "0"; // 请求失败
 	
 	public static final String USER_NOT_EXIST = "USER_NOT_EXIST"; // 用户不存在
-	public static final String USER_NO_MOBILE = "USER_NO_MOBILE"; // 用户没绑定手机
 	public static final String ACCOUNT_SMS_NOT_RIGHT = "SMS_NOT_RIGHT"; // 验证码不正确
 	public static final String ACCOUNT_SMS_CODE_EXPIRED = "SMS_CODE_EXPIRED"; // 验证码过期
-
-    //支付相关
-    public static final String ERROR_NOTSETPAYPASSWORD = "ERROR_NOTSETPAYPASSWORD"; //未设置支付密码
-    public static final String ERROR_PAYPASSWORD = "ERROR_PAYPASSWORD"; // 支付密码错误
-    public static final String ERROR_PAYPASSWORD_LOCKED = "ERROR_PAYPASSWORD_LOCKED"; // 支付密码锁定
-    public static final String ERROR_PAYPASSWORD_LOCK_SOON = "ERROR_PAYPASSWORD_LOCK_SOON"; // 支付密码即将被锁定
-    public static final String ERROR_NOTENOUGH = "ERROR_NOTENOUGH"; // 余额不够
-
 
 }

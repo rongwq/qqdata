@@ -33,7 +33,7 @@ public class GroupController extends Controller{
 		}
 		QqGroup group = groupService.findByGroupNo(groupNo);
 		if (group != null) {
-			BaseRenderJson.apiReturnJson(this, MyErrorCodeConfig.ERROR_BAD_REQUEST, group+"已存在");
+			BaseRenderJson.apiReturnJson(this, MyErrorCodeConfig.ERROR_BAD_REQUEST, groupNo+"已存在");
 			return;
 		}
 		groupService.save(groupNo);

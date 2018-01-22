@@ -18,7 +18,6 @@ public interface UserApiService extends BaseService<User>{
 	public boolean updateUserHead(long userId,String userHead) ;
 	public boolean updateMobile(long userId,String updateMobile) ;
 	public boolean updateUserName(String mobile, String userName);
-	public String checkPayPassword(long userId, String payPassword);
 	public User getUserByCode(String code);
 	public boolean deleteUserById(long userId);
 
