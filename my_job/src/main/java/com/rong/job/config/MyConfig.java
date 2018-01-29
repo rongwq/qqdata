@@ -8,6 +8,7 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.ext.plugin.quartz.QuartzPlugin3;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
@@ -15,6 +16,8 @@ import com.rong.common.bean.MyConst;
 import com.rong.persist.model._MappingKit;
 
 public class MyConfig extends JFinalConfig {
+
+	private final Log logger = Log.getLog(this.getClass());
 
 	/**
 	 * 加载配置文件
@@ -110,7 +113,7 @@ public class MyConfig extends JFinalConfig {
 
 	@Override
 	public void afterJFinalStart() {
-		System.out.println("job 启动成功");
+		logger.info("job 启动成功");
 		super.afterJFinalStart();
 	}
 	

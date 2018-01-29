@@ -7,6 +7,7 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByActionKeys;
 import com.jfinal.plugin.druid.DruidPlugin;
@@ -20,6 +21,8 @@ import com.rong.common.bean.MyConst;
 import com.rong.persist.model._MappingKit;
 
 public class MyConfig extends JFinalConfig {
+	
+	private final Log logger = Log.getLog(this.getClass());
 
 	/**
 	 * 加载配置文件
@@ -128,7 +131,7 @@ public class MyConfig extends JFinalConfig {
 
 	@Override
 	public void afterJFinalStart() {
-		System.out.println("api 启动成功");
+		logger.info("api 启动成功");
 		super.afterJFinalStart();
 	}
 }
