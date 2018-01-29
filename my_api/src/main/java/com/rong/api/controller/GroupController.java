@@ -60,7 +60,7 @@ public class GroupController extends Controller{
 	
 	/**
 	 * 批量比较群号是否已经存在
-	 * 返回已经存在的号码
+	 * 返回不存在的号码
 	 * groupNo多个群号格式：10001;10002;10003
 	 */
 	public void compare(){
@@ -75,14 +75,14 @@ public class GroupController extends Controller{
 		for (int i = 0; i < groupNoArr.length; i++) {
 			String item = groupNoArr[i];
 			QqGroup group = groupService.findByGroupNo(item);
-			if(group!=null){
-				returnList.add(group.getGroupNo());
+			if(group==null){
+				returnList.add(item);
 			}
 		}
 		if (returnList.size() == 0) {
-			BaseRenderJson.apiReturnJson(this, MyErrorCodeConfig.REQUEST_SUCCESS, "无存在群号");
+			BaseRenderJson.apiReturnJson(this, MyErrorCodeConfig.REQUEST_SUCCESS, "提交的群号全部存在");
 			return;
 		}
-		BaseRenderJson.returnObjectTmplate(this, MyErrorCodeConfig.REQUEST_SUCCESS, returnList, "包含的群号");
+		BaseRenderJson.returnObjectTmplate(this, MyErrorCodeConfig.REQUEST_SUCCESS, returnList, "不存在的群号码数据");
 	}
 }
