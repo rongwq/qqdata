@@ -11,7 +11,6 @@ import com.jfinal.plugin.activerecord.Page;
 import com.rong.common.bean.BaseRenderJson;
 import com.rong.common.bean.MyErrorCodeConfig;
 import com.rong.common.validator.CommonValidatorUtils;
-import com.rong.persist.model.QqData;
 import com.rong.persist.model.QqGroup;
 import com.rong.user.service.QqGroupService;
 import com.rong.user.service.QqGroupServiceImpl;

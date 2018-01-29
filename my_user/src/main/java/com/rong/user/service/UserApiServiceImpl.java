@@ -17,7 +17,6 @@ import com.rong.persist.model.User;
 public class UserApiServiceImpl extends BaseServiceImpl<User> implements UserApiService{
 	private UserDao dao = new UserDao();
 	private UserTokenDao userTokenDao = new UserTokenDao();
-	private UserPwderrorStatisService pwderrorCountSevice = new UserPwderrorStatisServiceImpl();
 	@Override
 	public User getUserByMobile(String mobile) {
 		User user=null;
