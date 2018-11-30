@@ -194,12 +194,12 @@ public class AdminController extends BaseController{
 			BaseRenderJson.returnJsonS(this,0,"新密码与旧密码一样");
 			return;
 		}
-		String oldEnpassword = genPassword(oldPassword, au.getStr("salt"));
-		if (!oldEnpassword.equals(au.getStr("password"))) {
+		String oldEnpassword = genPassword(oldPassword, au.getSalt());
+		if (!oldEnpassword.equals(au.getUserPassword())) {
 			BaseRenderJson.returnJsonS(this,0,"旧密码输入错误");
 			return;
 		}
-		au.set("password", genPassword(password, au.getStr("salt")));
+		au.setUserPassword(genPassword(password, au.getStr("salt")));
 		if (au.update()) {
 			BaseRenderJson.returnUpdateObj(this, true);
 			logger.info("[操作日志]用户"+au.getUserName()+"更新密码成功");
@@ -223,12 +223,12 @@ public class AdminController extends BaseController{
 		return salt;
 	}
 	public void userInfo(){
-		SystemAdmin user = getSessionAttr("ADMIN_USER");
+		SystemAdmin user = getSessionAttr(MyConst.SESSION_KEY);
 		BaseRenderJson.returnViewObjectTmplate(this, "1", user);
 	}
 	
 	public void userInfoToEdit(){
-		SystemAdmin user = getSessionAttr("ADMIN_USER");
+		SystemAdmin user = getSessionAttr(MyConst.SESSION_KEY);
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("user", user);
 		map.put("roles", roleService.getRolesList());
@@ -236,7 +236,7 @@ public class AdminController extends BaseController{
 	}
 	
 	public void userInfoEdit(){
-		SystemAdmin user = getSessionAttr("ADMIN_USER");
+		SystemAdmin user = getSessionAttr(MyConst.SESSION_KEY);
 		String role = getPara("role");
 		String email = getPara("email");
 		String mobile = getPara("mobile");

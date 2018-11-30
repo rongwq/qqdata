@@ -49,7 +49,7 @@
 
 				<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
 					<a class="am-dropdown-toggle tpl-header-list-link"
-					href="javascript:;"> <span class="tpl-header-list-user-nick">${ADMIN_USER.userName}</span><span
+					href="javascript:;"> <span class="tpl-header-list-user-nick">${session_login.userName}</span><span
 						class="tpl-header-list-user-ico"> <img
 							src="<%=basePath%>/assets/img/user.png"></span>
 				</a>
@@ -425,11 +425,11 @@
   		<div class="am-g tpl-amazeui-form">
         	<div class="am-u-sm-16 am-u-md-12">
             	<form id="dataForm3" action="" method="POST" class="am-form am-form-horizontal">
-            		<input type="hidden" name="id" value="${ADMIN_USER.id}">
+            		<input type="hidden" name="id" value="${session_login.id}">
   					<div class="am-form-group">
 		    			<label for="userName" class="am-u-sm-5 am-form-label">账号</label>
 		    			<div class="am-u-sm-6">
-		      				<label for="userName" class="am-u-sm-2 am-form-label">${ADMIN_USER.userName}</label>
+		      				<label for="userName" class="am-u-sm-2 am-form-label">${session_login.userName}</label>
 		    			</div>
 					</div>
 					<div class="am-form-group">
