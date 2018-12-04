@@ -7,7 +7,7 @@ package com.rong.persist.enums;
  * @date 2017年12月27日
  */
 public enum QqDataTypeEnum {
-	WHITE("白号", 1), THREE_QUESTION("三问号", 2), MOBILE("绑机号", 3), TOKEN("令牌号", 4);
+	WHITE("白号", 1), THREE_QUESTION("三问号", 2), MOBILE("绑机号", 3), TOKEN("令牌号", 4), MOBILE_NOQUESTION("手机令牌号-无密保", 5), TOKEN_NOQUESTION("手机号-无密保", 6);
 	// 成员变量
 	private String name;
 	private int index;

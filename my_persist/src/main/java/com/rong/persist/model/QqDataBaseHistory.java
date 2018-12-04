@@ -66,4 +66,23 @@ public class QqDataBaseHistory extends BaseQqDataBaseHistory<QqDataBaseHistory> 
 		this.setMobile(mobile);
 		this.setTokenCode(tokenCode);
 	}
+	
+	// 新增2018-12-03：QQ号码----密码----手机号码
+	public QqDataBaseHistory(String qq, String qqPwd, String mobile) {
+		Date now = new Date();
+		this.setCreateTime(now);
+		this.setPwd(qqPwd);
+		this.setQq(qq);
+		this.setMobile(mobile);
+	}
+
+	// 新增2018-12-03：QQ号码----密码----手机号码----令牌码
+	public QqDataBaseHistory(String qq, String qqPwd, String mobile, String tokenCode) {
+		Date now = new Date();
+		this.setCreateTime(now);
+		this.setPwd(qqPwd);
+		this.setQq(qq);
+		this.setMobile(mobile);
+		this.setTokenCode(tokenCode);
+	}
 }

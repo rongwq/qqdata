@@ -176,6 +176,15 @@ public class QqDataServiceImpl extends BaseServiceImpl<QqData> implements QqData
 			tokenCode = vals[9];
 			qqDataBase = new QqDataBase(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile,tokenCode);
 			break;
+		case 5:// 2018-12-3：新增绑定手机号
+			mobile = vals[2];
+			qqDataBase = new QqDataBase(qq, qqPwd,mobile);
+			break;
+		case 6:// 2018-12-3：新增绑定手机号+token
+			mobile = vals[2];
+			tokenCode = vals[3];
+			qqDataBase = new QqDataBase(qq, qqPwd,mobile,tokenCode);
+			break;
 		default:
 			return false;
 		}
@@ -226,6 +235,15 @@ public class QqDataServiceImpl extends BaseServiceImpl<QqData> implements QqData
 			mobile = vals[8];
 			tokenCode = vals[9];
 			qqDataBaseHistory = new QqDataBaseHistory(qq, qqPwd, question1, question1_answer, question2, question2_answer, question3, question3_answer,mobile,tokenCode);
+			break;
+		case 5:// 2018-12-3：新增绑定手机号
+			mobile = vals[2];
+			qqDataBaseHistory = new QqDataBaseHistory(qq, qqPwd,mobile);
+			break;
+		case 6:// 2018-12-3：新增绑定手机号+token
+			mobile = vals[2];
+			tokenCode = vals[3];
+			qqDataBaseHistory = new QqDataBaseHistory(qq, qqPwd,mobile,tokenCode);
 			break;
 		default:
 			return false;

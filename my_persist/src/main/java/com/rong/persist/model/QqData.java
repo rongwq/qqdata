@@ -70,6 +70,10 @@ public class QqData extends BaseQqData<QqData> {
 		switch (length) {
 		case 2:
 			return QqDataTypeEnum.WHITE;
+		case 3:
+			return QqDataTypeEnum.MOBILE_NOQUESTION;
+		case 4:
+			return QqDataTypeEnum.TOKEN_NOQUESTION;
 		case 8:
 			return QqDataTypeEnum.THREE_QUESTION;
 		case 9:
