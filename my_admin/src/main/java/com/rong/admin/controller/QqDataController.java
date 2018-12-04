@@ -110,6 +110,14 @@ public class QqDataController extends BaseController {
 				write.append(qqDataBase.getQuestion2() + tab).append(qqDataBase.getQuestion2Answer() + tab);
 				write.append(qqDataBase.getQuestion3() + tab).append(qqDataBase.getQuestion3Answer() + tab);
 				write.append(qqDataBase.getMobile() + tab).append(qqDataBase.getTokenCode());
+			}else if(exportType==QqDataTypeEnum.MOBILE_NOQUESTION.getIndex()){
+				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
+				write.append(tab);
+				write.append(qqDataBase.getMobile());
+			}else if(exportType==QqDataTypeEnum.TOKEN_NOQUESTION.getIndex()){
+				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
+				write.append(tab);
+				write.append(qqDataBase.getMobile() + tab).append(qqDataBase.getTokenCode());
 			}else{
 				
 			}
@@ -177,6 +185,10 @@ public class QqDataController extends BaseController {
 				qqType = 3;
 			}else if(vals.length==10){
 				qqType = 4;
+			}else if(vals.length==3){
+				qqType = 5;
+			}else if(vals.length==4){
+				qqType = 6;
 			}else{
 				qqType = 1;
 			}

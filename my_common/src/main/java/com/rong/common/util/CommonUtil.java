@@ -92,13 +92,16 @@ public class CommonUtil {
 	 * 三问号 2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox 
 	 * 绑机号 2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox----15243834134 
 	 * 令牌号 2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox----15243834134----token
+	 * 181203补充格式
+	 * 令牌号格式是：QQ号码----密码----手机号码----令牌码
+	 * 绑定手机号：        QQ号码----密码----手机号码
 	 * @return
 	 */
 	public static boolean validQqData(String qqData) {
 		String qqDataStrs[] = qqData.split("\n");
 		for (int i = 0; i < qqDataStrs.length; i++) {
 			String vals[] = qqDataStrs[i].split("----");
-			if (!(vals.length ==2 || vals.length==8 || vals.length==9 || vals.length==10)) {
+			if (!(vals.length ==2 ||vals.length ==3 ||vals.length ==4 || vals.length==8 || vals.length==9 || vals.length==10)) {
 				return false;
 			}
 		}
@@ -109,7 +112,7 @@ public class CommonUtil {
 		String qqDataStrs[] = qqData.split(";");
 		for (int i = 0; i < qqDataStrs.length; i++) {
 			String vals[] = qqDataStrs[i].split("-");
-			if (!(vals.length ==2 || vals.length==8 || vals.length==9 || vals.length==10)) {
+			if (!(vals.length ==2 ||vals.length ==3 ||vals.length ==4 || vals.length==8 || vals.length==9 || vals.length==10)) {
 				return false;
 			}
 		}

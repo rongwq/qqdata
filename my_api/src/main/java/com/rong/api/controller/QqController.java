@@ -100,6 +100,10 @@ public class QqController extends Controller{
 				qqType = 3;
 			}else if(vals.length==10){
 				qqType = 4;
+			}else if(vals.length==3){
+				qqType = 5;
+			}else if(vals.length==4){
+				qqType = 6;
 			}else{
 				qqType = 1;
 			}

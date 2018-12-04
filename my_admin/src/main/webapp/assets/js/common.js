@@ -74,7 +74,9 @@ function checkQqDataOne(qqData){
 	var regu_three  = /^[1-9][0-9]{4,9}-{4}\w+-{4}[\u4e00-\u9fa5,\w,\?,\？]+-{4}\w+-{4}[\u4e00-\u9fa5,\w,\?,\？]+-{4}\w+-{4}[\u4e00-\u9fa5,\w,\?,\？]+-{4}\w+/
 	var regu_mobile = /^[1-9][0-9]{4,9}-{4}\w+-{4}[\u4e00-\u9fa5,\w,\?,\？]+-{4}\w+-{4}[\u4e00-\u9fa5,\w,\?,\？]+-{4}\w+-{4}[\u4e00-\u9fa5,\w,\?,\？]+-{4}\w+-{4}\d{11}$/
 	var regu_token  = /^[1-9][0-9]{4,9}-{4}\w+-{4}[\u4e00-\u9fa5,\w,\?,\？]+-{4}\w+-{4}[\u4e00-\u9fa5,\w,\?,\？]+-{4}\w+-{4}[\u4e00-\u9fa5,\w,\?,\？]+-{4}\w+-{4}\d{11}-{4}\w+$/
-	if (qqData.match(regu_white) == null && qqData.match(regu_three) == null && qqData.match(regu_mobile) == null && qqData.match(regu_token) == null) {
+	var regu_token_noquestion  = /^[1-9][0-9]{4,9}-{4}\w+-{4}\d{11}$/
+	var regu_mobile_noquestion  = /^[1-9][0-9]{4,9}-{4}\w+-{4}\d{11}-{4}\w+$/
+	if (qqData.match(regu_white) == null && qqData.match(regu_three) == null && qqData.match(regu_mobile) == null && qqData.match(regu_token) == null&& qqData.match(regu_token_noquestion) == null&& qqData.match(regu_mobile_noquestion) == null) {
 		alert("格式错误:"+qqData);
 		return false;
 	}
