@@ -43,7 +43,7 @@
                                 <td>${item.question3 }</td>
                                 <td>${item.question3Answer }</td>
                                 <td>${item.mobile }</td>
-                                <td>${item.token }</td>
+                                <td>${item.tokenCode }</td>
 							</tr>
 						</c:forEach>
 					</tbody>
