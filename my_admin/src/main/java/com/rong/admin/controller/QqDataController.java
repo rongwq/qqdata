@@ -12,6 +12,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.rong.common.bean.BaseRenderJson;
 import com.rong.common.bean.MyErrorCodeConfig;
+import com.rong.common.exception.CommonException;
 import com.rong.common.util.CommonUtil;
 import com.rong.common.util.TxtExportUtil;
 import com.rong.persist.enums.QqDataTypeEnum;
@@ -233,8 +234,11 @@ public class QqDataController extends BaseController {
 		String tags = getPara("tags");
 		String qqDataStrs[] = qqData.split("\n");
 		for (int i = 0; i < qqDataStrs.length; i++) {
-			String qq = qqDataStrs[i];
+			String qq = qqDataStrs[i].split("----")[0];
 			QqData qqDataModel = qqDataService.findByQq(qq);
+			if(qqDataModel==null){
+				throw new CommonException("500", "qq【"+qq+"】不存在");
+			}
 			qqDataModel.setTags(tags);
 			qqDataModel.update();
 		}
