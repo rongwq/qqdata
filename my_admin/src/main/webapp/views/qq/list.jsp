@@ -9,11 +9,12 @@
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="updatePwd();">密码修改</button>
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="updateTag();">标签修改</button>
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="loadRight('<%=basePath %>/qqTeam/list','编组修改');">编组修改</button>
-                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="outStorage();">出库</button>
+                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="outStorage();">卖出</button>
             </div>
         </div>
 	
 		<input type="hidden" id="page" name="page" value="${page.pageNumber}">
+		<input type="hidden" id="storageState" name="storageState" value="1">
 		<div class="am-g tpl-amazeui-form">
 			<div class="am-u-lg-3">
 				<label for="qq" class="am-u-sm-4 am-form-label">QQ：</label>
@@ -35,7 +36,7 @@
 				 </div>
 			</div>
 			
-			<div class="am-u-lg-3 am-u-end">
+			<!--  <div class="am-u-lg-3 am-u-end">
                 <label for="storageState" class="am-u-sm-4 am-form-label">仓库状态：</label>
                 <div class="am-input-group am-u-sm-8"> 
 	                <select id="storageState" name="storageState" class="inline-block">
@@ -44,7 +45,7 @@
 	                    <option value="2" <c:if test="${storageState == 2 }">selected</c:if>>已出仓</option>
 	                </select>
                 </div>
-            </div>
+            </div>-->
             
             <div class="am-u-lg-3 am-u-end">
                 <label for="state" class="am-u-sm-4 am-form-label">使用状态：</label> 
@@ -136,10 +137,10 @@
 							<th>入库时间</th>
 							<th>Q龄</th>
 							<th>登录次数</th>
-							<th>仓库状态</th>
+							<!-- <th>仓库状态</th> -->
 							<th>使用状态</th>
-							<th>出库时间</th>
-							<th>剩余天数</th>
+							<!-- <th>出库时间</th>-->
+							<!--<th>剩余天数</th>-->
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -175,26 +176,26 @@
 								<td><fmt:formatDate value="${item.inStorageTime }" pattern="yyyy-MM-dd HH:mm" /></td>
 								<td>${item.qqAge}</td>
 								<td>${item.loginCount }</td>
-								<td>
+								<!-- <td>
 								    <c:if test="${empty item.outStorageTime  }">未出仓</c:if>
 								    <c:if test="${not empty item.outStorageTime  }">已出仓</c:if>
-								</td>
+								</td> -->
 								<td>
                                     <c:if test="${item.state  }">可用</c:if>
                                     <c:if test="${!item.state  }">已冻结</c:if>
                                 </td>
-                                <td>
+                                <!--<td>
                                     <c:if test="${not empty item.outStorageTime  }">
                                         <fmt:formatDate value="${item.outStorageTime }" pattern="yyyy-MM-dd HH:mm" />
                                     </c:if>
-                                </td>
-                                <td>
-                                <!-- 根据出库时间转化为天数 -->
+                                </td>-->
+                                <!--<td>
+                                 	根据出库时间转化为天数
                                 <c:if test="${not empty item.outStorageTime  }">
                                     <c:set var="outDays" value="${nowDate.time - item.outStorageTime.time}"/>
                                     <fmt:formatNumber value="${item.outStorageDays - outDays/1000/60/60/24}" pattern="#0"/>
                                 </c:if>
-                                </td>
+                                </td> -->
 								<td>
 									<div class="am-btn-toolbar">
 										<div class="am-btn-group am-btn-group-xs">

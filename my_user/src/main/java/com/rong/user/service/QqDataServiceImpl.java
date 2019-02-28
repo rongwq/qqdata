@@ -114,7 +114,14 @@ public class QqDataServiceImpl extends BaseServiceImpl<QqData> implements QqData
 		model.setInStorageTime(now);
 		model.setCreateTime(now);
 		model.setLoginCount(0);
-		model.setQqType(qqType);
+		//2019-1-14 数据类型合并
+		if(qqType==5){
+			model.setQqType(3);
+		}else if(qqType==6){
+			model.setQqType(4);
+		}else{
+			model.setQqType(qqType);
+		}
 		model.setState(true);
 		model.setTags(tags);
 		model.setTeamId(teamId);

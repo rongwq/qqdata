@@ -17,9 +17,9 @@
         	<div class="am-u-sm-12 am-u-md-9">
             	<form id="dataForm" action="<%=basePath%>/qq/outStorage" method="POST" class="am-form am-form-horizontal">
 					<div class="am-form-group">
-		    			<label id="qqCount" class="am-u-sm-3 am-form-label">已选数量：0</label>
-		    			<div class="am-u-sm-9" id="checkBoxDiv">
-		    			
+		    			<label for="qqData" class="am-u-sm-3 am-form-label">录入格式&nbsp;&nbsp;<a href="javascript:$('#doc').modal('open');">格式说明</a></label>
+		    			<div class="am-u-sm-9">
+		    				<textarea  name="qq" id="qq" rows="10" ></textarea>
 		    			</div>
 					</div>
 					
@@ -49,22 +49,22 @@
   	</div>
 </div>
 
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd"><h1>录入格式</h1>
+      <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+    </div>
+    <div class="am-modal-bd">
+<p>注：每个QQ使用英文,隔开,支持多行</p>
+<p>格式如下：<br>
+  2383088706,2383088707<br>
+  2383088706,2383088707<br>
+    </div>
+  </div>
+</div>
+
 <script>
   $(function() {
-	 var allCheckQq = '${param.val}';  
-	 var arr = allCheckQq.split(";");
-	 var arrLen = arr.length;
-	 var htmlStr = '';
-	 htmlStr += '';
-	 for(var i=1;i<=arrLen;i++){
-		 htmlStr += '<input type="checkbox" name="qq" data-am-ucheck checked = "checked" value="'+arr[i-1]+'">' + arr[i-1] +"&nbsp;&nbsp;&nbsp;&nbsp;";
-		 if(i % 5 == 0){
-             htmlStr += "<br>";
-         }
-	 }
-	 $("#qqCount").text("已选数量："+arrLen);
-	 $("#checkBoxDiv").html(htmlStr);
-	  
     $("#dataForm").submit(function() {
 		$(this).ajaxSubmit({
 			method:"POST",

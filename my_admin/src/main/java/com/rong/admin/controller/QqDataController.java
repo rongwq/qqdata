@@ -56,6 +56,18 @@ public class QqDataController extends BaseController {
 		setAttr("nowDate", new Date());
 		render("/views/qq/list.jsp");
 	}
+	
+	/**
+	 * QQ列表-已卖
+	 */
+	public void outStorageList() {
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<QqData> list = pageList(pageSize);
+		keepPara();
+		setAttr("page", list);
+		setAttr("nowDate", new Date());
+		render("/views/qq/outStorageList.jsp");
+	}
 
 	private Page<QqData> pageList(int pageSize) {
 		int pageNumber = getParaToInt("page", 1);
@@ -247,20 +259,23 @@ public class QqDataController extends BaseController {
 	}
 	
 	/**
-	 * 出库
+	 * 出库（卖出）
 	 */
 	@Before(Tx.class)
 	public void outStorage() {
-		String qqData [] = getParaValues("qq");
+		String qqData = getPara("qq");
 		String tags = getPara("tags");
+		String qqDataStrs[] = qqData.split("\n");
 		Integer outStorageDays = getParaToInt("outStorageDays");
-		for (int i = 0; i < qqData.length; i++) {
-			String qq = qqData[i];
-			QqData qqDataModel = qqDataService.findByQq(qq);
-			qqDataModel.setTags(tags + "、"+ qqDataModel.getTags());
-			qqDataModel.setOutStorageTime(new Date());
-			qqDataModel.setOutStorageDays(outStorageDays);
-			qqDataModel.update();
+		for (int i = 0; i < qqDataStrs.length; i++) {
+			String [] qqs = qqDataStrs[i].split(",");
+			for (String qq : qqs) {
+				QqData qqDataModel = qqDataService.findByQq(qq);
+				qqDataModel.setTags(tags + "、"+ qqDataModel.getTags()==null?"":qqDataModel.getTags());
+				qqDataModel.setOutStorageTime(new Date());
+				qqDataModel.setOutStorageDays(outStorageDays);
+				qqDataModel.update();
+			}
 		}
 		BaseRenderJson.returnUpdateObj(this, true);
 		logger.info("[操作日志]出库成功："+qqData);

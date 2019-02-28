@@ -43,7 +43,7 @@ function updateTag(){
  * 自动去除已出库的复选框
  */
 function outStorage(){
-	var len = $('input[name="ckb_id"]:checked').length;
+	/*var len = $('input[name="ckb_id"]:checked').length;
 	if(len==0){
 		alert("请选择qq");
 		return false;
@@ -63,7 +63,8 @@ function outStorage(){
         }
     });
 	allCheckQq = allCheckQq.substr(0,allCheckQq.length-1);
-	loadRight(getRootPath()+'/views/qq/outStorage.jsp?val='+encodeURI(allCheckQq),'出库');
+	loadRight(getRootPath()+'/views/qq/outStorage.jsp?val='+encodeURI(allCheckQq),'出库');*/
+	loadRight(getRootPath()+'/views/qq/outStorage.jsp','出库');
 }
 
 /**

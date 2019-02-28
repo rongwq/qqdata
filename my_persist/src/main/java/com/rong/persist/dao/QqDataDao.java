@@ -53,6 +53,8 @@ public class QqDataDao extends BaseDao<QqData> {
 			}else if (storageState == 2) {
 				where.append(" and out_storage_time is not null");
 			}
+		}else{
+			where.append(" and out_storage_time is null");
 		}
 		// qq编组
 		String teamName = param.getStr("teamName");
