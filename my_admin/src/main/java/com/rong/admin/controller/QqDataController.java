@@ -271,6 +271,9 @@ public class QqDataController extends BaseController {
 			String [] qqs = qqDataStrs[i].split(",");
 			for (String qq : qqs) {
 				QqData qqDataModel = qqDataService.findByQq(qq);
+				if(qqDataModel==null){//如果不存在的QQ数据会直接跳过
+					continue;
+				}
 				qqDataModel.setTags(tags + "、"+ qqDataModel.getTags()==null?"":qqDataModel.getTags());
 				qqDataModel.setOutStorageTime(new Date());
 				qqDataModel.setOutStorageDays(outStorageDays);
