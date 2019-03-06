@@ -17,7 +17,7 @@
         	<div class="am-u-sm-12 am-u-md-9">
             	<form id="dataForm" action="<%=basePath%>/qq/outStorage" method="POST" class="am-form am-form-horizontal">
 					<div class="am-form-group">
-		    			<label for="qqData" class="am-u-sm-3 am-form-label">录入格式&nbsp;&nbsp;<a href="javascript:$('#doc').modal('open');">格式说明</a></label>
+		    			<label for="qq" class="am-u-sm-3 am-form-label">录入格式&nbsp;&nbsp;<a href="javascript:$('#doc').modal('open');">格式说明</a></label>
 		    			<div class="am-u-sm-9">
 		    				<textarea  name="qq" id="qq" rows="10" ></textarea>
 		    			</div>
@@ -49,7 +49,7 @@
   	</div>
 </div>
 
-<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc">
+<!--  <div class="am-modal am-modal-no-btn" tabindex="-1" id="doc">
   <div class="am-modal-dialog">
     <div class="am-modal-hd"><h1>录入格式</h1>
       <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
@@ -61,11 +61,40 @@
   2383088706,2383088707<br>
     </div>
   </div>
+</div>-->
+
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd"><h1>录入格式</h1>
+      <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+    </div>
+    <div class="am-modal-bd">
+<p>注：一行显示一个号码信息，多个号码换行显示</p>
+<p>各种类型格式如下：<br>
+  白号<br>
+  2383088706----xzzqt11480<br>
+  绑机号-无密保<br>
+  2383088706----xzzqt11480----15243834134<br>
+   令牌号-无密保<br>
+  2383088706----xzzqt11480----15243834134----daac29701bc36f<br>
+  三问号<br>
+  2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox<br>
+  绑机号<br>
+  2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox----15243834134<br>
+  令牌号<br>
+  2383088706----xzzqt11480----您母亲的姓名是？----uesxvm----您高中班主任的名字是？----unojku----您父亲的姓名是？----uyzkox----15243834134----daac29701bc36f<br>
+    </p>
+    </div>
+  </div>
 </div>
 
 <script>
   $(function() {
     $("#dataForm").submit(function() {
+    	var validSuccess = checkQqData($("#qq").val());
+    	if(!validSuccess){
+    		return false;
+    	}
 		$(this).ajaxSubmit({
 			method:"POST",
 			data:$('#dataForm').formSerialize(),
