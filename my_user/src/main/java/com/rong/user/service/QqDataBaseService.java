@@ -1,5 +1,7 @@
 package com.rong.user.service;
 
+import java.util.List;
+
 import com.rong.persist.base.BaseService;
 import com.rong.persist.model.QqDataBase;
 
@@ -10,5 +12,6 @@ import com.rong.persist.model.QqDataBase;
  */
 public interface QqDataBaseService extends BaseService<QqDataBase>{
 	QqDataBase findByQq(String qq);
+	List<QqDataBase> findByQqs(String qqs);
 }
 

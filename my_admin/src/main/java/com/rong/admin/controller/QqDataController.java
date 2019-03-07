@@ -15,6 +15,7 @@ import com.rong.common.bean.MyErrorCodeConfig;
 import com.rong.common.exception.CommonException;
 import com.rong.common.util.CommonUtil;
 import com.rong.common.util.DateTimeUtil;
+import com.rong.common.util.StringUtils;
 import com.rong.common.util.TxtExportUtil;
 import com.rong.persist.enums.QqDataTypeEnum;
 import com.rong.persist.model.QqData;
@@ -99,41 +100,43 @@ public class QqDataController extends BaseController {
 	 * 导出QQ列表
 	 */
 	public void exportTxt() {
-		Integer exportType = getParaToInt("exportType",QqDataTypeEnum.WHITE.getIndex());
-		List<QqData> list = pageList(9999).getList();
+		Date startTime = new Date();
+		Integer exportType = getParaToInt("qqType",QqDataTypeEnum.WHITE.getIndex());
+		List<QqData> list = pageList(999999).getList();
+		if(list.size()==0){
+			this.renderText("没有相关数据");
+			return;
+		}
 		StringBuffer write = new StringBuffer();
 		String tab = "----";
 		String enter = "\r\n";
-		for (QqData qqData : list) {
+		StringBuffer qqs = new StringBuffer();
+		for (int i = 0; i < list.size(); i++) {
+			if(i!=0){
+				qqs.append(",");
+			}
+			qqs.append(list.get(i).getQq());
+		}
+		List<QqDataBase> qqDataBaseList = qqDataBaseService.findByQqs(qqs.toString());
+		for (QqDataBase qqData : qqDataBaseList) {
 			String qq = qqData.getQq();
-			write.append(qq + tab).append(qqData.getQqPwd());
-			if(exportType==QqDataTypeEnum.THREE_QUESTION.getIndex()){
-				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
-				setCommonVal(write, tab, qqDataBase);
-			}else if(exportType==QqDataTypeEnum.MOBILE.getIndex()){
-				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
+			write.append(qq + tab).append(qqData.getPwd());
+			if (exportType == QqDataTypeEnum.THREE_QUESTION.getIndex()) {
+				setCommonVal(write, tab, qqData);
+			} else if (exportType == QqDataTypeEnum.MOBILE.getIndex()) {
+				setCommonVal(write, tab, qqData);
 				write.append(tab);
-				write.append(qqDataBase.getQuestion1() + tab).append(qqDataBase.getQuestion1Answer() + tab);
-				write.append(qqDataBase.getQuestion2() + tab).append(qqDataBase.getQuestion2Answer() + tab);
-				write.append(qqDataBase.getQuestion3() + tab).append(qqDataBase.getQuestion3Answer() + tab);
-				write.append(qqDataBase.getMobile());
-			}else if(exportType==QqDataTypeEnum.TOKEN.getIndex()){
-				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
+				write.append(qqData.getMobile());
+			} else if (exportType == QqDataTypeEnum.TOKEN.getIndex()) {
+				setCommonVal(write, tab, qqData);
 				write.append(tab);
-				write.append(qqDataBase.getQuestion1() + tab).append(qqDataBase.getQuestion1Answer() + tab);
-				write.append(qqDataBase.getQuestion2() + tab).append(qqDataBase.getQuestion2Answer() + tab);
-				write.append(qqDataBase.getQuestion3() + tab).append(qqDataBase.getQuestion3Answer() + tab);
-				write.append(qqDataBase.getMobile() + tab).append(qqDataBase.getTokenCode());
-			}else if(exportType==QqDataTypeEnum.MOBILE_NOQUESTION.getIndex()){
-				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
-				write.append(tab);
-				write.append(qqDataBase.getMobile());
-			}else if(exportType==QqDataTypeEnum.TOKEN_NOQUESTION.getIndex()){
-				QqDataBase qqDataBase = qqDataBaseService.findByQq(qq);
-				write.append(tab);
-				write.append(qqDataBase.getMobile() + tab).append(qqDataBase.getTokenCode());
-			}else{
-				
+				write.append(qqData.getMobile() + tab).append(qqData.getTokenCode());
+			} else if (exportType == QqDataTypeEnum.MOBILE_NOQUESTION.getIndex()) {
+				write.append(qqData.getMobile());
+			} else if (exportType == QqDataTypeEnum.TOKEN_NOQUESTION.getIndex()) {
+				write.append(qqData.getMobile() + tab).append(qqData.getTokenCode());
+			} else {
+
 			}
 			write.append(enter);
 		}
@@ -146,14 +149,23 @@ public class QqDataController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		DateTimeUtil.getBetweenMillisecond(startTime, new Date());
 		renderFile(file);
 	}
 
 	private void setCommonVal(StringBuffer write, String tab, QqDataBase qqDataBase) {
-		write.append(tab);
-		write.append(qqDataBase.getQuestion1() + tab).append(qqDataBase.getQuestion1Answer() + tab);
-		write.append(qqDataBase.getQuestion2() + tab).append(qqDataBase.getQuestion2Answer() + tab);
-		write.append(qqDataBase.getQuestion3() + tab).append(qqDataBase.getQuestion3Answer());
+		if(!(StringUtils.isNullOrEmpty(qqDataBase.getQuestion1())&&StringUtils.isNullOrEmpty(qqDataBase.getQuestion2())&&StringUtils.isNullOrEmpty(qqDataBase.getQuestion3()))){
+			write.append(tab);
+		}
+		if(!StringUtils.isNullOrEmpty(qqDataBase.getQuestion1())){
+			write.append(qqDataBase.getQuestion1() + tab).append(qqDataBase.getQuestion1Answer() + tab);
+		}
+		if(!StringUtils.isNullOrEmpty(qqDataBase.getQuestion2())){
+			write.append(qqDataBase.getQuestion2() + tab).append(qqDataBase.getQuestion2Answer() + tab);
+		}
+		if(!StringUtils.isNullOrEmpty(qqDataBase.getQuestion3())){
+			write.append(qqDataBase.getQuestion3() + tab).append(qqDataBase.getQuestion3Answer());
+		}
 	}
 	
 	/**

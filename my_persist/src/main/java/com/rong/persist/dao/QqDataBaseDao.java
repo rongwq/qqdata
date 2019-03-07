@@ -1,5 +1,7 @@
 package com.rong.persist.dao;
 
+import java.util.List;
+
 import com.rong.persist.base.BaseDao;
 import com.rong.persist.model.QqDataBase;
 
@@ -17,5 +19,10 @@ public class QqDataBaseDao extends BaseDao<QqDataBase> {
 	public QqDataBase findByQq(String qq){
 		String sql = "select " + FILEDS + " from " + QqDataBase.TABLE + " where qq = ?";
 		return dao.findFirst(sql, qq);
+	}
+	
+	public List<QqDataBase> findByQqs(String qqs){
+		String sql = "select " + FILEDS + " from " + QqDataBase.TABLE + " where qq in ("+qqs+") group by qq order by create_time desc";
+		return dao.find(sql);
 	}
 }

@@ -122,10 +122,10 @@ public class QqDataDao extends BaseDao<QqData> {
 	public List<Record> qqTypeStatis(){
 		String sql = "SELECT qq_type qqType,"
 				+ "count(*) allCount,"
-				+ "count(IF(state = 1, TRUE, NULL)) storageCount,"
+				+ "count(IF(state = 1 and out_storage_time IS NULL, TRUE, NULL)) storageCount,"
 				+ "count(IF (out_storage_time IS NOT NULL,TRUE,NULL)) outStorageCount,"
-				+ "count(if(LENGTH(qq)=9,true,null)) qqlen9Count,"
-				+ "count(if(LENGTH(qq)=10,true,null)) qqlen10Count "
+				+ "count(if(LENGTH(qq)=9 and out_storage_time IS NULL,true,null)) qqlen9Count,"
+				+ "count(if(LENGTH(qq)=10 and out_storage_time IS NULL,true,null)) qqlen10Count "
 				+ "FROM "
 				+ "qq_data GROUP BY qq_type";
 		return Db.find(sql);

@@ -1,5 +1,7 @@
 package com.rong.user.service;
 
+import java.util.List;
+
 import com.rong.persist.base.BaseServiceImpl;
 import com.rong.persist.dao.QqDataBaseDao;
 import com.rong.persist.model.QqDataBase;
@@ -15,5 +17,10 @@ public class QqDataBaseServiceImpl extends BaseServiceImpl<QqDataBase> implement
 	@Override
 	public QqDataBase findByQq(String qq) {
 		return qqDataBaseDao.findByQq(qq);
+	}
+
+	@Override
+	public List<QqDataBase> findByQqs(String qqs) {
+		return qqDataBaseDao.findByQqs(qqs);
 	}
 }

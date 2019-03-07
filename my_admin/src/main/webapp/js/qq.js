@@ -127,18 +127,16 @@ function exportTxt() {
         relatedTarget: this,
         onConfirm: function(options) {
         	var dataStr = $('#queryForm').formSerialize();
-        	var val=$('input:radio[name="exportType"]:checked').val();
-        	if(dataStr==""){
-        		dataStr += "?exportType="+val;
-        	}else{
-        		dataStr += "&exportType="+val;
-        	}
-        	console.log(dataStr);
         	$.ajax({
         		url : getRootPath() + "/qq/exportTxt",
         		data : dataStr
         	}).done(function(data) {
-        		window.open(getRootPath()+"/qq导出数据.txt");
+       			if(data.indexOf("没有相关数据")!=-1){
+       				alert("导出数据为空");
+       			}else{
+       				alert("导出成功")
+       				window.open(getRootPath()+"/qq导出数据.txt");
+       			}
         	});
         }
       });
