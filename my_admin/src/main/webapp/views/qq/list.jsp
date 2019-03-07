@@ -117,6 +117,7 @@
             <div class="am-u-lg-6 am-u-end">
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="doQuery();">查询</button>
                 <button class="am-btn am-btn-secondary am-radius" type="button" onclick="exportTxt();">导出txt</button>
+                <label for="qqamount" class="am-u-sm-4 am-form-label">卖出总计：${page.totalRow}</label>
             </div>
         </div>
 	</form>
