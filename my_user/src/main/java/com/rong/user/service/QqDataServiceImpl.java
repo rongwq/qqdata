@@ -6,6 +6,7 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Page;
+import com.rong.common.bean.MyConst;
 import com.rong.persist.base.BaseServiceImpl;
 import com.rong.persist.dao.QqDataBaseDao;
 import com.rong.persist.dao.QqDataBaseHistoryDao;
@@ -122,7 +123,7 @@ public class QqDataServiceImpl extends BaseServiceImpl<QqData> implements QqData
 		}else{
 			model.setQqType(qqType);
 		}
-		model.setState(true);
+		model.setState(MyConst.QQSTATE_ENABLE);
 		model.setTags(tags);
 		model.setTeamId(teamId);
 		model.setTeamName(teamName);

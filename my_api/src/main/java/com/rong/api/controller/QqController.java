@@ -14,6 +14,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.rong.common.bean.BaseRenderJson;
+import com.rong.common.bean.MyConst;
 import com.rong.common.bean.MyErrorCodeConfig;
 import com.rong.common.util.CommonUtil;
 import com.rong.common.util.DateTimeUtil;
@@ -179,7 +180,7 @@ public class QqController extends Controller{
 			return;
 		}
 		if(state){//可用
-			qqDataModel.setState(state);
+			qqDataModel.setState(MyConst.QQSTATE_ENABLE);
 			qqDataModel.setLoginTime(new Date());
 			qqDataModel.setLoginCount(qqDataModel.getLoginCount()+1);
 			boolean result = qqDataModel.update();

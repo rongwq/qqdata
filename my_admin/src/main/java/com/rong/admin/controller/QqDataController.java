@@ -11,6 +11,7 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.rong.common.bean.BaseRenderJson;
+import com.rong.common.bean.MyConst;
 import com.rong.common.bean.MyErrorCodeConfig;
 import com.rong.common.exception.CommonException;
 import com.rong.common.util.CommonUtil;
@@ -387,5 +388,58 @@ public class QqDataController extends BaseController {
 			BaseRenderJson.returnDelObj(this, false);
 			logger.error("[操作日志]删除QQ数据id:" + id + "失败");
 		}
+	}
+	
+	/**
+	 * 永久冻结
+	 */
+	@Before(Tx.class)
+	public void disableState() {
+		String qqData = getPara("qq");
+		String tags = getPara("tags");
+		// 校验qqData格式是否正确
+		boolean validSuccess = CommonUtil.validQqData(qqData);
+		if (!validSuccess) {// 校验失败
+			BaseRenderJson.returnBaseTemplateObj(this, MyErrorCodeConfig.ERROR_BAD_REQUEST, "格式错误");
+			return;
+		}
+		String qqDataStrs[] = qqData.split("\n");
+		double costPrice = 0.38;
+		String teamName = DateTimeUtil.formatDateTime(new Date(), "yyyyMMdd");
+		// 保存编组
+		long teamId = qqTeamService.save(teamName, costPrice);
+		for (int i = 0; i < qqDataStrs.length; i++) {
+			String vals[] = qqDataStrs[i].split("----");
+			String qq = vals[0];
+			QqData qqDataModel = qqDataService.findByQq(qq);
+			// 如果不存在的QQ数据则新增
+			if (qqDataModel == null) {
+				String qqPwd = vals[1];
+				int qqType = 1;
+				if (vals.length == 2) {
+					qqType = 1;
+				} else if (vals.length == 8) {
+					qqType = 2;
+				} else if (vals.length == 9) {
+					qqType = 3;
+				} else if (vals.length == 10) {
+					qqType = 4;
+				} else if (vals.length == 3) {
+					qqType = 5;
+				} else if (vals.length == 4) {
+					qqType = 6;
+				} else {
+					qqType = 1;
+				}
+				// 1.保存qqData
+				qqDataService.saveQqData(vals, qq, qqPwd, qqType, tags, teamId, teamName);
+				qqDataModel = qqDataService.findByQq(qq);
+			}
+			qqDataModel.setState(MyConst.QQSTATE_DISABLE_FOREVER);
+			qqDataModel.setTags(tags + "、" + qqDataModel.getTags() == null ? "" : qqDataModel.getTags());
+			qqDataModel.update();
+		}
+		BaseRenderJson.returnUpdateObj(this, true);
+		logger.info("[操作日志]永久冻结成功："+qqData);
 	}
 }

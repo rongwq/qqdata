@@ -52,8 +52,9 @@
                 <div class="am-input-group am-u-sm-8"> 
 	                <select id="state" name="state" class="inline-block">
 	                    <option value="">-请选择-</option>
-	                    <option value="1" <c:if test="${state == 1 }">selected</c:if>>可用</option>
-	                    <option value="0" <c:if test="${not empty state and state != 1}">selected</c:if>>已冻结</option>
+	                    <option value="1" <c:if test="${state == 1}">selected</c:if>>可用</option>
+	                    <option value="0" <c:if test="${state == 0}">selected</c:if>>已冻结</option>
+	                    <option value="2" <c:if test="${state == 2}">selected</c:if>>永久冻结</option>
 	                </select>
                 </div>
             </div>
@@ -182,8 +183,9 @@
 								    <c:if test="${not empty item.outStorageTime  }">已出仓</c:if>
 								</td> -->
 								<td>
-                                    <c:if test="${item.state  }">可用</c:if>
-                                    <c:if test="${!item.state  }">已冻结</c:if>
+                                    <c:if test="${item.state == 1 }">可用</c:if>
+                                    <c:if test="${item.state == 0 }">已冻结</c:if>
+                                    <c:if test="${item.state == 2 }">永久冻结</c:if>
                                 </td>
                                 <!--<td>
                                     <c:if test="${not empty item.outStorageTime  }">

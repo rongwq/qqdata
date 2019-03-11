@@ -89,11 +89,11 @@ public abstract class BaseQqData<M extends BaseQqData<M>> extends Model<M> imple
 		return getInt("login_count");
 	}
 
-	public void setState(java.lang.Boolean state) {
+	public void setState(java.lang.Integer state) {
 		set("state", state);
 	}
 
-	public java.lang.Boolean getState() {
+	public java.lang.Integer getState() {
 		return get("state");
 	}
 

@@ -84,7 +84,9 @@ var pageData = {
 							+ data[i].qqlen9Count + "</td>" + "<td>"
 							+ data[i].qqlen10Count + "</td>" + "<td>"
 							+ data[i].storageCount + "</td>" + "<td>"
-							+ data[i].outStorageCount + "</td>" + "</tr>";
+							+ data[i].outStorageCount + "</td>" + "<td>"
+							+ data[i].state0 + "</td>" + "<td>"
+							+ data[i].state2 + "</td>" + "</tr>";
 				qqTypeArr[i] = qqType;
 				qqTypeArrVal[i] = data[i].storageCount;
 			}

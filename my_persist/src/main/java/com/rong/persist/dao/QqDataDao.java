@@ -121,6 +121,8 @@ public class QqDataDao extends BaseDao<QqData> {
 	
 	public List<Record> qqTypeStatis(){
 		String sql = "SELECT qq_type qqType,"
+				+ "count(IF(state = 0, TRUE, NULL)) state0,"
+				+ "count(IF(state = 2, TRUE, NULL)) state2,"
 				+ "count(*) allCount,"
 				+ "count(IF(state = 1 and out_storage_time IS NULL, TRUE, NULL)) storageCount,"
 				+ "count(IF (out_storage_time IS NOT NULL,TRUE,NULL)) outStorageCount,"

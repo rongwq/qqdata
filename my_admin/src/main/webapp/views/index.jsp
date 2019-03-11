@@ -89,9 +89,18 @@
 									class="am-icon-angle-right"></i> <span>QQ列表</span>
 							</a>
 							</shiro:hasPermission>
+							</li>
+							<li>
 							<shiro:hasPermission name="member-user">
 							<a href="javascript:loadRight('<%=basePath %>/qq/outStorageList?storageState=2','QQ列表-已卖')"> <i
 									class="am-icon-angle-right"></i> <span>QQ列表-已卖</span>
+							</a>
+							</shiro:hasPermission>
+							</li>
+							<li>
+							<shiro:hasPermission name="member-user">
+							<a href="javascript:loadRight('<%=basePath %>/qq/outStorageList?state=2','QQ列表-永久冻结')"> <i
+									class="am-icon-angle-right"></i> <span>QQ列表-永久冻结</span>
 							</a>
 							</shiro:hasPermission>
 							</li>
@@ -101,9 +110,18 @@
 									class="am-icon-angle-right"></i> <span>新增QQ</span>
 							</a>
 							</shiro:hasPermission>
+							</li>
+							<li>
 							<shiro:hasPermission name="member-user">
 							<a href="javascript:loadRight('<%=basePath %>/views/qq/outStorage.jsp','卖出QQ')"> <i
 									class="am-icon-angle-right"></i> <span>卖出QQ</span>
+							</a>
+							</shiro:hasPermission>
+							</li>
+								<li>
+							<shiro:hasPermission name="member-user">
+							<a href="javascript:loadRight('<%=basePath %>/views/qq/disableState.jsp','卖出QQ')"> <i
+									class="am-icon-angle-right"></i> <span>永久冻结QQ</span>
 							</a>
 							</shiro:hasPermission>
 							</li>
@@ -245,7 +263,9 @@
 											<th> 9位</th>
 											<th>10位</th>
 											<th>库存</th>
-											<th>出仓量</th>
+											<th>卖出</th>
+											<th>临时冻结</th>
+											<th>永久冻结</th>
 										</tr>
 									</thead>
 									<tbody class="data-item" id="qqStatis"/>

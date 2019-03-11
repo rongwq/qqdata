@@ -48,5 +48,10 @@ public class MyConst {
 	// 对密码格式的限制
 	public static final String REGEX = "(?!^\\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{6,12}";
 	public static final String DEFAULT_PASSWORD = "123456";
+	
+	// 用户管理
+	public static final int QQSTATE_DISABLE = 0;// 禁用
+	public static final int QQSTATE_ENABLE = 1;// 正常
+	public static final int QQSTATE_DISABLE_FOREVER = 2;// 永久冻结
 
 }
