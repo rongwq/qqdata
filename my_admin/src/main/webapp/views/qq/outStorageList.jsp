@@ -41,10 +41,10 @@
                 <label for="state" class="am-u-sm-4 am-form-label">使用状态：</label> 
                 <div class="am-input-group am-u-sm-8"> 
 	                <select id="state" name="state" class="inline-block">
-	                    <option value="">-请选择-</option>
-	                    <option value="1" <c:if test="${state == 1}">selected</c:if>>可用</option>
-	                    <option value="0" <c:if test="${state == 0}">selected</c:if>>已冻结</option>
-	                    <option value="2" <c:if test="${state == 2}">selected</c:if>>永久冻结</option>
+	                    <option value="" <c:if test="${empty state}">selected</c:if>>-请选择-</option>
+	                       <option value="1" <c:if test="${state == 1}">selected</c:if>>可用</option>
+	                    <option value="0" <c:if test="${not empty state and state == 0}">selected</c:if>>已冻结</option>
+	                   	<option value="2" <c:if test="${state == 2}">selected</c:if>>永久冻结</option>
 	                </select>
                 </div>
             </div>

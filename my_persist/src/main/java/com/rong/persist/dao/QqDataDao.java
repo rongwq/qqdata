@@ -40,7 +40,7 @@ public class QqDataDao extends BaseDao<QqData> {
 		if (qqType != null) {
 			where.append(" and qq_type = " + qqType + "");
 		}
-		// qq状态 1-可用，0已冻结
+		// qq状态 1-可用，0已冻结,2永久冻结
 		Integer state = param.getInt("state");
 		if (state != null) {
 			where.append(" and state = " + state + "");
@@ -53,8 +53,6 @@ public class QqDataDao extends BaseDao<QqData> {
 			}else if (storageState == 2) {
 				where.append(" and out_storage_time is not null");
 			}
-		}else{
-			where.append(" and out_storage_time is null");
 		}
 		// qq编组
 		String teamName = param.getStr("teamName");

@@ -71,6 +71,18 @@ public class QqDataController extends BaseController {
 		setAttr("nowDate", new Date());
 		render("/views/qq/outStorageList.jsp");
 	}
+	
+	/**
+	 * QQ列表-永久冻结
+	 */
+	public void disableForeverList() {
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<QqData> list = pageList(pageSize);
+		keepPara();
+		setAttr("page", list);
+		setAttr("nowDate", new Date());
+		render("/views/qq/disableForeverList.jsp");
+	}
 
 	private Page<QqData> pageList(int pageSize) {
 		int pageNumber = getParaToInt("page", 1);
@@ -408,6 +420,12 @@ public class QqDataController extends BaseController {
 		String teamName = DateTimeUtil.formatDateTime(new Date(), "yyyyMMdd");
 		// 保存编组
 		long teamId = qqTeamService.save(teamName, costPrice);
+		//	已经卖出 且 已经永久冻结
+		int exitAndSellered = 0;
+		// 	已经卖出 且 没有永久冻结
+		int notExitAndSellered = 0;
+		// 	没有卖出 且 没有永久冻结
+		int newAdd = 0;
 		for (int i = 0; i < qqDataStrs.length; i++) {
 			String vals[] = qqDataStrs[i].split("----");
 			String qq = vals[0];
@@ -434,12 +452,25 @@ public class QqDataController extends BaseController {
 				// 1.保存qqData
 				qqDataService.saveQqData(vals, qq, qqPwd, qqType, tags, teamId, teamName);
 				qqDataModel = qqDataService.findByQq(qq);
+				newAdd++;
+			}else{
+				// 已经卖出 且 已经永久冻结
+				if(qqDataModel.getOutStorageTime()!=null && qqDataModel.getState()==MyConst.QQSTATE_DISABLE_FOREVER){
+					exitAndSellered++;
+				// 已经卖出 且 未冻结
+				}else if(qqDataModel.getOutStorageTime()!=null && qqDataModel.getState()!=MyConst.QQSTATE_DISABLE_FOREVER){
+					notExitAndSellered++;
+				}else{
+					newAdd++;
+				}
 			}
 			qqDataModel.setState(MyConst.QQSTATE_DISABLE_FOREVER);
 			qqDataModel.setTags(tags + "、" + qqDataModel.getTags() == null ? "" : qqDataModel.getTags());
 			qqDataModel.update();
 		}
-		BaseRenderJson.returnUpdateObj(this, true);
-		logger.info("[操作日志]永久冻结成功："+qqData);
+//		BaseRenderJson.returnUpdateObj(this, true);
+		String msg = "永久冻结成功，总提交："+qqDataStrs.length+"，新增:"+newAdd+",已卖-已永久冻结:"+exitAndSellered+"，已卖-未永久冻结:"+notExitAndSellered+"";
+		BaseRenderJson.apiReturnJson(this,"1", msg);
+		logger.info("[操作日志]"+msg);
 	}
 }

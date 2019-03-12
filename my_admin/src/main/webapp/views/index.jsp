@@ -99,7 +99,7 @@
 							</li>
 							<li>
 							<shiro:hasPermission name="member-user">
-							<a href="javascript:loadRight('<%=basePath %>/qq/outStorageList?state=2','QQ列表-永久冻结')"> <i
+							<a href="javascript:loadRight('<%=basePath %>/qq/disableForeverList?state=2','QQ列表-永久冻结')"> <i
 									class="am-icon-angle-right"></i> <span>QQ列表-永久冻结</span>
 							</a>
 							</shiro:hasPermission>
@@ -120,7 +120,7 @@
 							</li>
 								<li>
 							<shiro:hasPermission name="member-user">
-							<a href="javascript:loadRight('<%=basePath %>/views/qq/disableState.jsp','卖出QQ')"> <i
+							<a href="javascript:loadRight('<%=basePath %>/views/qq/disableState.jsp','永久冻结QQ')"> <i
 									class="am-icon-angle-right"></i> <span>永久冻结QQ</span>
 							</a>
 							</shiro:hasPermission>

@@ -2,19 +2,9 @@
 <%@ include file="/views/common/meta.jsp"%>
 
 <div class="tpl-portlet-components">
-	<form class="am-form am-form-horizontal" id="queryForm" role="form" action="<%=basePath %>/qq/list">
-	    <div class="am-g tpl-amazeui-form">
-            <div class="am-u-lg-6 am-u-end">
-                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="loadRight('<%=basePath %>/views/qq/add.jsp','新增QQ')">入库</button>
-                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="updatePwd();">密码修改</button>
-                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="updateTag();">标签修改</button>
-                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="loadRight('<%=basePath %>/qqTeam/list','编组修改');">编组修改</button>
-                <button class="am-btn am-btn-secondary am-radius" type="button" onclick="outStorage();">卖出</button>
-            </div>
-        </div>
-	
+	<form class="am-form am-form-horizontal" id="queryForm" role="form" action="<%=basePath %>/qq/disableForeverList">
 		<input type="hidden" id="page" name="page" value="${page.pageNumber}">
-		<input type="hidden" id="storageState" name="storageState" value="1">
+		<input type="hidden" id="state" name="state" value="2">
 		<div class="am-g tpl-amazeui-form">
 			<div class="am-u-lg-3">
 				<label for="qq" class="am-u-sm-4 am-form-label">QQ：</label>
@@ -36,7 +26,7 @@
 				 </div>
 			</div>
 			
-			<!--  <div class="am-u-lg-3 am-u-end">
+			<div class="am-u-lg-3 am-u-end">
                 <label for="storageState" class="am-u-sm-4 am-form-label">仓库状态：</label>
                 <div class="am-input-group am-u-sm-8"> 
 	                <select id="storageState" name="storageState" class="inline-block">
@@ -45,19 +35,8 @@
 	                    <option value="2" <c:if test="${storageState == 2 }">selected</c:if>>已出仓</option>
 	                </select>
                 </div>
-            </div>-->
-            
-            <div class="am-u-lg-3 am-u-end">
-                <label for="state" class="am-u-sm-4 am-form-label">使用状态：</label> 
-                <div class="am-input-group am-u-sm-8"> 
-	                <select id="state" name="state" class="inline-block">
-	               		<option value="" <c:if test="${empty state}">selected</c:if>>-请选择-</option>
-	                    <option value="1" <c:if test="${state == 1}">selected</c:if>>可用</option>
-	                    <option value="0" <c:if test="${not empty state and state == 0}">selected</c:if>>已冻结</option>
-	                   	<option value="2" <c:if test="${state == 2}">selected</c:if>>永久冻结</option>
-	                </select>
-                </div>
             </div>
+            
 		</div>
 		
 		<!-- 下一行 -->
@@ -129,7 +108,6 @@
 					class="am-table am-table-striped am-table-hover table-main am-text-nowrap">
 					<thead>
 						<tr>
-						    <th><input type="checkbox" id="checkAllBox" data-am-ucheck onclick="checkAll()">全选</th>
 							<th>编号</th>
 							<th>QQ</th>
 							<th>PWD</th>
@@ -139,21 +117,15 @@
 							<th>入库时间</th>
 							<th>Q龄</th>
 							<th>登录次数</th>
-							<!-- <th>仓库状态</th> -->
 							<th>使用状态</th>
-							<!-- <th>出库时间</th>-->
-							<!--<th>剩余天数</th>-->
+							<th>卖出时间</th>
+							<th>剩余天数</th>
 							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${page.list}" var="item">
 							<tr>
-							    <td> 
-							         <label class="am-checkbox-inline">
-                                        <input type="checkbox" name="ckb_id" value="${item.id }" data-am-ucheck>
-                                     </label>
-                                </td>
 								<td>${item.id }</td>
 								<!-- 根据qq最近登录时间转化为天数  2天没登录红色、1天没登录黄色、当天登录绿色-->
                                 <c:set var="loginDays" value="${nowDate.time - item.loginTime.time}"/>
@@ -178,27 +150,23 @@
 								<td><fmt:formatDate value="${item.inStorageTime }" pattern="yyyy-MM-dd HH:mm" /></td>
 								<td>${item.qqAge}</td>
 								<td>${item.loginCount }</td>
-								<!-- <td>
-								    <c:if test="${empty item.outStorageTime  }">未出仓</c:if>
-								    <c:if test="${not empty item.outStorageTime  }">已出仓</c:if>
-								</td> -->
 								<td>
                                     <c:if test="${item.state == 1 }">可用</c:if>
                                     <c:if test="${item.state == 0 }">已冻结</c:if>
                                     <c:if test="${item.state == 2 }">永久冻结</c:if>
                                 </td>
-                                <!--<td>
+                                <td>
                                     <c:if test="${not empty item.outStorageTime  }">
                                         <fmt:formatDate value="${item.outStorageTime }" pattern="yyyy-MM-dd HH:mm" />
                                     </c:if>
-                                </td>-->
-                                <!--<td>
-                                 	根据出库时间转化为天数
+                                </td>
+                                <td>
+                                <!-- 根据出库时间转化为天数 -->
                                 <c:if test="${not empty item.outStorageTime  }">
                                     <c:set var="outDays" value="${nowDate.time - item.outStorageTime.time}"/>
                                     <fmt:formatNumber value="${item.outStorageDays - outDays/1000/60/60/24}" pattern="#0"/>
                                 </c:if>
-                                </td> -->
+                                </td>
 								<td>
 									<div class="am-btn-toolbar">
 										<div class="am-btn-group am-btn-group-xs">
@@ -239,6 +207,7 @@
 				<div class="am-modal am-modal-confirm" tabindex="-1" id="my-popup-exportTxt">
                     <div class="am-modal-dialog">
                         <div class="am-modal-hd">导出TXT</div>
+                       
                         <div class="am-modal-footer">
                             <span class="am-modal-btn" data-am-modal-cancel>取消</span> <span
                                 class="am-modal-btn" data-am-modal-confirm>确定</span>

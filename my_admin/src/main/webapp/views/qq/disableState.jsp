@@ -15,7 +15,7 @@
       	</div>
         <div class="am-g tpl-amazeui-form">
         	<div class="am-u-sm-12 am-u-md-9">
-            	<form id="dataForm" action="<%=basePath%>/qq/outStorage" method="POST" class="am-form am-form-horizontal">
+            	<form id="dataForm" action="<%=basePath%>/qq/disableState" method="POST" class="am-form am-form-horizontal">
 					<div class="am-form-group">
 		    			<label for="qq" class="am-u-sm-3 am-form-label">录入格式&nbsp;&nbsp;<a href="javascript:$('#doc').modal('open');">格式说明</a></label>
 		    			<div class="am-u-sm-9">
